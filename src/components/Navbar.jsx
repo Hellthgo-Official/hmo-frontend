@@ -2,7 +2,7 @@ import Logo from '../assets/images/logo.png';
 
 const Navbar = () => {
   return (
-    <div className="bg-secondaryBG px-7 py-5 flex justify-between items-center">
+    <div className="w-full bg-secondaryBG fixed top-0 px-7 py-5 flex justify-between items-center">
       <div className="flex space-x-3">
         <img src={Logo} className="w-10 h-10" alt="Logo" />
         <div className="text-white">

@@ -35,47 +35,88 @@ const PlanSelection = () => {
           </button>
         </Link>
 
-        <div className="py-8 text-center">
-          <p className="text-sm text-healthgoBlack font-semibold">
-            {' '}
-            HealthGO Plan:
-          </p>
-          <p className="font-light">Unavailable</p>
-        </div>
-
         <div className="grid grid-cols-2 gap-3">
           <div className="border rounded-lg p-3 border-primary space-y-3">
             <p className="text-sm font-light">Started since:</p>
             <p className="text-healthgoBlack">N/A</p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
-            <p className="text-sm font-light">Started since:</p>
+            <p className="text-sm font-light">Enrollee ID:</p>
             <p className="text-healthgoBlack">N/A</p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
-            <p className="text-sm font-light">Started since:</p>
+            <p className="text-sm font-light">Deposit Amount:</p>
             <p className="text-healthgoBlack">N/A</p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
-            <p className="text-sm font-light">Started since:</p>
+            <p className="text-sm font-light">Instalment amount:</p>
             <p className="text-healthgoBlack">N/A</p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
-            <p className="text-sm font-light">Started since:</p>
+            <p className="text-sm font-light">Amount paid:</p>
             <p className="text-healthgoBlack">N/A</p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
-            <p className="text-sm font-light">Started since:</p>
+            <p className="text-sm font-light">Balance left to pay:</p>
             <p className="text-healthgoBlack">N/A</p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
-            <p className="text-sm font-light">Started since:</p>
+            <p className="text-sm font-light">Mode of payment:</p>
             <p className="text-healthgoBlack">N/A</p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
-            <p className="text-sm font-light">Started since:</p>
+            <p className="text-sm font-light">Date for next payment:</p>
             <p className="text-healthgoBlack">N/A</p>
           </div>
+        </div>
+
+        <div className="py-8 text-center">
+          <p className="text-sm text-healthgoBlack font-semibold">
+            HealthGO Plan:
+          </p>
+          <p className="font-light">Unavailable</p>
+        </div>
+
+        <div className="flex items-center justify-center flex-col">
+          <Link to={'/'}>
+            <button className="px-5 py-2 my-5 gap-x-2 rounded-md flex border-green border text-healthgoGreen">
+              See Available Packages
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                />
+              </svg>
+            </button>
+          </Link>
+
+          <Link to={'/'}>
+            <button className="px-5 py-2 mb-5 gap-x-2 rounded-md flex bg-grey text-white">
+              Verify Account
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                />
+              </svg>
+            </button>
+          </Link>
         </div>
       </div>
     </div>

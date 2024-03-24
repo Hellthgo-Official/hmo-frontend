@@ -9,6 +9,7 @@ export default {
         primaryBG: '#F5FFF9',
         secondaryBG: '#07A53D',
         healthgoBlack: '#002912',
+        grey: '#D5D8D6',
       },
 
       fontFamily: {
@@ -20,6 +21,7 @@ export default {
       },
       borderColor: {
         primary: '#B8E5CA',
+        green: '#07A53D',
       },
     },
   },
