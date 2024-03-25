@@ -51,7 +51,7 @@ const Signup = () => {
             </p>
             <img
               src={accountVerificationImg}
-              className="hidden md:block"
+              className="hidden md:block mt-[60px]"
               alt="Account verification with password"
             />
           </div>
@@ -142,7 +142,7 @@ const Signup = () => {
                 >
                   Create Account <img src={arrowRight} alt="arrow-right" />
                 </button>
-                <Link to='/signin'>
+                <Link to="/signin">
                   <button className="bg-transparent border border-secondary w-full font-barlow font-semibold px-[1rem] py-[0.5rem] h-[48px] rounded-[4px]">
                     Log in to an existing account
                   </button>

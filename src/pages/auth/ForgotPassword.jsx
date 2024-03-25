@@ -1,27 +1,14 @@
 import { useState } from 'react';
 import accountVerificationImg from '../../assets/images/Account verification with password and 3d padlock.svg';
-import arrowRight from '../../assets/images/arrow-right.svg';
-import eye from '../../assets/images/eyes-open.svg';
 import { Link } from 'react-router-dom';
 
-const Signin = () => {
+const ForgotPassword = () => {
   const initialFormData = {
     email: '',
-    password: '',
+    phoneNumber: '',
   };
 
   const [formData, setFormData] = useState(initialFormData);
-
-  const [showPassword, setShowPassword] = useState(false);
-  const [pswInputFocus, setPswInputFocus] = useState(false);
-
-  const handlePswInputFocus = () => {
-    setPswInputFocus(true);
-  };
-
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
 
   const handleInputChange = (key, value) => {
     setFormData({ ...formData, [key]: value });
@@ -39,11 +26,10 @@ const Signin = () => {
         <div className="my-[62px] flex flex-col md:flex-row w-full lg:w-[90%] justify-between items-center gap-[40px] md:gap-[101px] lg:gap-[201px]">
           <div className="w-[80%] md:w-[50%] text-center md:text-left">
             <h2 className="text-[28px] text-healthgoBlack font-bold leading-[30.8px] tracking-[-2%]">
-              Log in
+              Forgot Password
             </h2>
             <p className="font-light text-[1rem] leading-[20.8px] tracking-[-2%] text-black-200 mt-2">
-              Log in to your HealthGO account to start enjoying affordable
-              Healthcare.
+              A link to reset the password will be sent to your mail
             </p>
             <img
               src={accountVerificationImg}
@@ -69,32 +55,16 @@ const Signin = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <div
-                  className={`flex flex-row justify-between items-center ${
-                    pswInputFocus ? 'border-[2px]' : 'border'
-                  } ${
-                    pswInputFocus ? 'border-black-100' : 'border-blue-200'
-                  }  bg-blue-100 rounded-[8px] h-[3rem] w-full px-[0.5rem]`}
-                >
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    id="password"
-                    className="auth-psw-input"
-                    value={formData.password}
-                    onChange={(e) =>
-                      handleInputChange('password', e.target.value)
-                    }
-                    onFocus={handlePswInputFocus}
-                    onBlur={() => setPswInputFocus(false)}
-                  />
-                  <img
-                    src={eye}
-                    onClick={toggleShowPassword}
-                    className="w-[25px] h-[24px]"
-                    alt="eye"
-                  />
-                </div>
+                <label htmlFor="phoneNumber">Phone Number</label>
+                <input
+                  type="tel"
+                  id="phoneNumber"
+                  className="auth-input"
+                  value={formData.phoneNumber}
+                  onChange={(e) =>
+                    handleInputChange('phoneNumber', e.target.value)
+                  }
+                />
               </div>
 
               <div className="mt-[30px] flex flex-col gap-[20px]">
@@ -102,17 +72,13 @@ const Signin = () => {
                   type="submit"
                   className="bg-secondary w-full font-barlow font-semibold text-[14px] leading-[21px] tracking-[2%} text-white px-[1rem] py-[0.5rem] rounded-[4px] flex justify-center items-center gap-[8px] h-[3rem]"
                 >
-                  Log in <img src={arrowRight} alt="arrow-right" />
+                  Reset Password
                 </button>
-                <Link to="/signup">
+                <Link to="/signin">
                   <button className="bg-transparent border border-secondary w-full font-barlow font-semibold px-[1rem] py-[0.5rem] h-[48px] rounded-[4px]">
-                    Create An Account
+                    Back
                   </button>
                 </Link>
-
-                <div className="font-barlow font-semibold text-[12px] text-secondary text-center leading-[18px] tracking-[2%]">
-                  Forgot password?
-                </div>
               </div>
             </form>
           </div>
@@ -122,4 +88,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default ForgotPassword;
