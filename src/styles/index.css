@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.wrapper {
+  @apply container mx-auto px-[22px] md:px-4 py-2 w-full;
+}
+
+.o-auth-btn {
+  @apply border-[0.8px] w-full lg:w-[50%] border-secondary rounded-[6px] px-[0.75rem] gap-[6px] flex flex-row flex-wrap justify-center items-center cursor-pointer;
+}
+
+.form-group {
+  @apply flex flex-col gap-[0.5rem];
+}
+
+.form-group label {
+  @apply text-[0.75rem] text-black-100 font-light leading-[14.4px];
+}
+
+.form-group .auth-input {
+  @apply border border-blue-200 bg-blue-100 rounded-[8px] h-[3rem] w-full px-[0.5rem] text-black-100;
+}
+
+.form-group .auth-psw-input {
+  @apply w-[90%] bg-blue-100 h-full;
+}
+
+.form-group .auth-psw-input:focus {
+  @apply outline-none;
+}
