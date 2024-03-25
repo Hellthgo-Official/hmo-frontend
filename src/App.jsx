@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import PlanSelection from './pages/PlanSelection';
 import Signup from './pages/auth/Signup';
 import Signin from './pages/auth/Signin';
+import ForgotPassword from './pages/auth/ForgotPassword';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
           <Route path="/" element={<PlanSelection />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </div>
     </Router>
