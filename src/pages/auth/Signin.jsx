@@ -110,9 +110,11 @@ const Signin = () => {
                   </button>
                 </Link>
 
-                <div className="font-barlow font-semibold text-[12px] text-secondary text-center leading-[18px] tracking-[2%]">
-                  Forgot password?
-                </div>
+                <Link to='/forgot-password'>
+                  <div className="font-barlow font-semibold text-[12px] text-secondary text-center leading-[18px] tracking-[2%]">
+                    Forgot password?
+                  </div>
+                </Link>
               </div>
             </form>
           </div>
