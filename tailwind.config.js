@@ -10,6 +10,7 @@ export default {
         secondaryBG: '#07A53D',
         healthgoBlack: '#002912',
         grey: '#D5D8D6',
+        blandGreen: '#D2F9DF',
       },
 
       fontFamily: {

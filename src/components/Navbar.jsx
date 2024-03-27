@@ -2,11 +2,11 @@ import Logo from '../assets/images/logo.png';
 
 const Navbar = () => {
   return (
-    <div className="w-full bg-secondaryBG fixed top-0 px-7 py-5 flex justify-between items-center">
-      <div className="flex space-x-3">
+    <div className="w-full bg-secondaryBG fixed top-0 z-10 px-7 py-4 flex justify-between items-center">
+      <div className="flex space-x-3 items-center">
         <img src={Logo} className="w-10 h-10" alt="Logo" />
         <div className="text-white">
-          <p className="text-lg font-semibold">HealthGO</p>
+          <p className="text-lg font-semibold leading-5">HealthGO</p>
           <p className="text-xs">...quality healthcare for all...</p>
         </div>
       </div>

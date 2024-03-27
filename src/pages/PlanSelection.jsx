@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import CustomButton from '../components/CustomButton';
 
 const PlanSelection = () => {
   return (
@@ -15,25 +16,11 @@ const PlanSelection = () => {
             the various benefits of your HealthGO account.
           </p>
         </div>
-        <Link to={'/'}>
-          <button className="px-5 py-2 my-5 gap-x-2 rounded-md flex bg-secondaryBG text-white">
-            Verify Account
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-              />
-            </svg>
-          </button>
-        </Link>
+
+        <CustomButton
+          linkTitle={'Verify Account'}
+          linkRoute={'/verify-account'}
+        />
 
         <div className="grid grid-cols-2 gap-3">
           <div className="border rounded-lg p-3 border-primary space-y-3">
@@ -77,46 +64,18 @@ const PlanSelection = () => {
           <p className="font-light">Unavailable</p>
         </div>
 
-        <div className="flex items-center justify-center flex-col">
-          <Link to={'/'}>
-            <button className="px-5 py-2 my-5 gap-x-2 rounded-md flex border-green border text-healthgoGreen">
-              See Available Packages
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-                />
-              </svg>
-            </button>
-          </Link>
+        <div className="flex items-center justify-center gap-y-3 flex-col">
+          <CustomButton
+            buttonType="outlined"
+            linkRoute="/available-packages"
+            linkTitle="See Available Packages"
+          />
 
-          <Link to={'/'}>
-            <button className="px-5 py-2 mb-5 gap-x-2 rounded-md flex bg-grey text-white">
-              Verify Account
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-                />
-              </svg>
-            </button>
-          </Link>
+          <CustomButton
+            buttonType="inactive"
+            linkRoute="/"
+            linkTitle="Verify Account"
+          />
         </div>
       </div>
     </div>
