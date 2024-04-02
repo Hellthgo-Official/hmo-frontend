@@ -20,11 +20,15 @@
 }
 
 .form-group .auth-input {
-  @apply border border-blue-200 bg-blue-100 rounded-[8px] h-[3rem] w-full px-[0.5rem] text-black-100;
+  @apply border border-green-200 bg-green-100 rounded-[8px] h-[3rem] w-full px-[0.5rem] text-black-100;
+}
+
+.form-group .auth-input:focus {
+  @apply border border-green-300 bg-green-400 outline-green-300;
 }
 
 .form-group .auth-psw-input {
-  @apply w-[90%] bg-blue-100 h-full;
+  @apply w-[90%] bg-green-100 h-full;
 }
 
 .form-group .auth-psw-input:focus {

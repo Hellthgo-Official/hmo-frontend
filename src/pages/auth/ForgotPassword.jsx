@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import accountVerificationImg from '../../assets/images/Account verification with password and 3d padlock.svg';
 import { Link } from 'react-router-dom';
+// import { useMutation } from '@tanstack/react-query';
 
 const ForgotPassword = () => {
   const initialFormData = {
@@ -13,6 +14,10 @@ const ForgotPassword = () => {
   const handleInputChange = (key, value) => {
     setFormData({ ...formData, [key]: value });
   };
+
+  // const forgotPasswordMutation = useMutation({
+  //   mutationFn: forgo
+  // })
 
   const handleSubmit = (e) => {
     e.preventDefault();
