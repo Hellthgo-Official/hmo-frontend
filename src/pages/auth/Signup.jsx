@@ -4,9 +4,13 @@ import google from '../../assets/images/Google.svg';
 import ios from '../../assets/images/ios.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
 import eye from '../../assets/images/eyes-open.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { signupUserFn } from '../../api/auth';
 
 const Signup = () => {
+  const navigate = useNavigate();
+
   const initialFormData = {
     email: '',
     fullName: '',
@@ -31,10 +35,21 @@ const Signup = () => {
     setFormData({ ...formData, [key]: value });
   };
 
+  const signupMutation = useMutation({
+    mutationFn: signupUserFn,
+    onSuccess: (data) => {
+      console.log(data);
+      setFormData(initialFormData);
+      navigate('/signin');
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  })
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    setFormData(initialFormData);
+    signupMutation.mutate(formData);
   };
 
   return (
@@ -67,7 +82,7 @@ const Signup = () => {
             </div>
             <form
               className="mt-[30px] flex flex-col gap-[20px]"
-              onSubmit={handleSubmit}
+              
             >
               <div className="form-group">
                 <label htmlFor="email">Email</label>
@@ -112,8 +127,8 @@ const Signup = () => {
                   className={`flex flex-row justify-between items-center ${
                     pswInputFocus ? 'border-[2px]' : 'border'
                   } ${
-                    pswInputFocus ? 'border-black-100' : 'border-blue-200'
-                  }  bg-blue-100 rounded-[8px] h-[3rem] w-full px-[0.5rem]`}
+                    pswInputFocus ? 'border-green-300' : 'border-green-200'
+                  }  bg-green-100 rounded-[8px] h-[3rem] w-full px-[0.5rem]`}
                 >
                   <input
                     type={showPassword ? 'text' : 'password'}
@@ -138,6 +153,8 @@ const Signup = () => {
               <div className="mt-[30px] flex flex-col gap-[20px]">
                 <button
                   type="submit"
+                  onClick={handleSubmit}
+                  disabled={signupMutation.isLoading}
                   className="bg-secondary w-full font-barlow font-semibold text-[14px] leading-[21px] tracking-[2%} text-white px-[1rem] py-[0.5rem] rounded-[4px] flex justify-center items-center gap-[8px] h-[3rem]"
                 >
                   Create Account <img src={arrowRight} alt="arrow-right" />

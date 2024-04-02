@@ -2,11 +2,15 @@ import { useState } from 'react';
 import accountVerificationImg from '../../assets/images/Account verification with password and 3d padlock.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
 import eye from '../../assets/images/eyes-open.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { signinUserFn } from '../../api/auth';
+import useAuthStore from '../../store/auth';
 
 const Signin = () => {
+  const navigate = useNavigate();
   const initialFormData = {
-    email: '',
+    login: '',
     password: '',
   };
 
@@ -27,10 +31,24 @@ const Signin = () => {
     setFormData({ ...formData, [key]: value });
   };
 
+  const storeLogin = useAuthStore((state) => state.setLogin);
+
+  const signinMutation = useMutation({
+    mutationFn: signinUserFn,
+    onSuccess: (data) => {
+      console.log(data);
+      setFormData(initialFormData);
+      storeLogin(data);
+      navigate('/');
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  })
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    setFormData(initialFormData);
+    signinMutation.mutate(formData);
   };
 
   return (
@@ -55,7 +73,6 @@ const Signin = () => {
           <div className="w-full md:w-[50%] shadow-authFormContainer p-[30px] rounded-[1.25rem] md:rounded-[0.75rem]">
             <form
               className="mt-[30px] flex flex-col gap-[20px]"
-              onSubmit={handleSubmit}
             >
               <div className="form-group">
                 <label htmlFor="email">Email</label>
@@ -63,8 +80,8 @@ const Signin = () => {
                   type="email"
                   id="email"
                   className="auth-input"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  value={formData.login}
+                  onChange={(e) => handleInputChange('login', e.target.value)}
                 />
               </div>
 
@@ -74,8 +91,8 @@ const Signin = () => {
                   className={`flex flex-row justify-between items-center ${
                     pswInputFocus ? 'border-[2px]' : 'border'
                   } ${
-                    pswInputFocus ? 'border-black-100' : 'border-blue-200'
-                  }  bg-blue-100 rounded-[8px] h-[3rem] w-full px-[0.5rem]`}
+                    pswInputFocus ? 'border-green-300' : 'border-green-200'
+                  }  bg-green-100 rounded-[8px] h-[3rem] w-full px-[0.5rem]`}
                 >
                   <input
                     type={showPassword ? 'text' : 'password'}
@@ -100,6 +117,8 @@ const Signin = () => {
               <div className="mt-[30px] flex flex-col gap-[20px]">
                 <button
                   type="submit"
+                  onClick={handleSubmit}
+                  disabled={signinMutation.isLoading}
                   className="bg-secondary w-full font-barlow font-semibold text-[14px] leading-[21px] tracking-[2%} text-white px-[1rem] py-[0.5rem] rounded-[4px] flex justify-center items-center gap-[8px] h-[3rem]"
                 >
                   Log in <img src={arrowRight} alt="arrow-right" />
