@@ -20,7 +20,7 @@ const PaymentPlanSpan = (props: Props) => {
             <p className="text-xs font-light">100 days; ~3 months</p>
           </div>
 
-          <CustomButton linkRoute="/payment-plan/daily" linkTitle="Next" />
+          <CustomButton linkRoute="/payment-checkout" linkTitle="Next" />
         </div>
 
         {/* Daily */}
@@ -34,7 +34,7 @@ const PaymentPlanSpan = (props: Props) => {
             <p className="text-xs font-light">60 days; ~2 months</p>
           </div>
 
-          <CustomButton linkRoute="/payment-plan/daily" linkTitle="Next" />
+          <CustomButton linkRoute="/payment-checkout" linkTitle="Next" />
         </div>
       </div>
     </div>

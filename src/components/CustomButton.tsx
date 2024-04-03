@@ -10,9 +10,15 @@ type Props = {
   linkRoute: string;
   linkTitle: string;
   buttonType?: 'main' | 'outlined' | 'inactive' | 'full';
+  extraClassNames?: string;
 };
 
-const CustomButton = ({ linkRoute, linkTitle, buttonType }: Props) => {
+const CustomButton = ({
+  linkRoute,
+  linkTitle,
+  buttonType,
+  extraClassNames,
+}: Props) => {
   let buttonStyle = '';
 
   switch (buttonType) {
@@ -36,7 +42,7 @@ const CustomButton = ({ linkRoute, linkTitle, buttonType }: Props) => {
   }
   return (
     <Link to={linkRoute}>
-      <button className={buttonStyle}>
+      <button className={`${buttonStyle} ${extraClassNames}`}>
         {linkTitle}
         <svg
           xmlns="http://www.w3.org/2000/svg"

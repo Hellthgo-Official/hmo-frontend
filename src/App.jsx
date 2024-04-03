@@ -7,6 +7,8 @@ import VerifyKinAccount from './pages/VerifyKinAccount';
 import AvailablePackages from './pages/AvailablePackages';
 import PaymentPlan from './pages/PaymentPlan';
 import PaymentPlanSpan from './pages/PaymentPlanSpan';
+import PaymentCheckout from './pages/PaymentCheckout';
+import Wallet from './pages/Wallet';
 
 const App = () => {
   return (
@@ -23,6 +25,8 @@ const App = () => {
           <Route path="/available-packages" element={<AvailablePackages />} />
           <Route path="/payment-plan" element={<PaymentPlan />} />
           <Route path="/payment-plan/daily" element={<PaymentPlanSpan />} />
+          <Route path="/payment-checkout" element={<PaymentCheckout />} />
+          <Route path="/wallet" element={<Wallet />} />
         </Routes>
       </div>
       <Footer />

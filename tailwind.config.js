@@ -12,13 +12,13 @@ export default {
         grey: '#D5D8D6',
         blandGreen: '#D2F9DF',
       },
-
       fontFamily: {
         sans: ['"Sofia Sans"', ...defaultTheme.fontFamily.sans],
       },
       textColor: {
         healthgoBlack: '#002912',
         healthgoGreen: '#07A53D',
+        textGrey: '#545C58',
       },
       borderColor: {
         primary: '#B8E5CA',
