@@ -1,4 +1,9 @@
 @tailwind base;
+@layer base { 
+      html { 
+        @apply text-healthgoBlack; 
+      } 
+} 
 @tailwind components;
 @tailwind utilities;
 
