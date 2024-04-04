@@ -1,6 +1,13 @@
 import { authApi } from "..";
 
-export async function signupUserFn(email, firstName, lastName, password, confirmPassword, number) {
+export async function signupUserFn(
+  email,
+  firstName,
+  lastName,
+  password,
+  confirmPassword,
+  number
+) {
   try {
     const body = {
       email,
@@ -11,7 +18,7 @@ export async function signupUserFn(email, firstName, lastName, password, confirm
       number
     };
 
-    const response = await authApi.post('/auth/signup', body);
+    const response = await authApi.post("/auth/signup", body);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -19,14 +26,9 @@ export async function signupUserFn(email, firstName, lastName, password, confirm
   }
 }
 
-export async function signinUserFn(login, password) {
+export async function signinUserFn(body) {
   try {
-    const body = {
-      login,
-      password
-    };
-
-    const response = await authApi.post('/auth/signin', body);
+    const response = await authApi.post("/auth/signin", body);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -34,14 +36,14 @@ export async function signinUserFn(login, password) {
   }
 }
 
-export async function resetPasswordFn (email, password) {
+export async function resetPasswordFn(email, password) {
   try {
     const body = {
       email,
       password
     };
 
-    const response = await authApi.post('/auth/reset-password', body);
+    const response = await authApi.post("/auth/reset-password", body);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -49,7 +51,7 @@ export async function resetPasswordFn (email, password) {
   }
 }
 
-export async function recoverPasswordFn (email) {
+export async function recoverPasswordFn(email) {
   try {
     const response = await authApi.get(`/auth/recover-password/${email}`);
     return response.data;
@@ -59,7 +61,7 @@ export async function recoverPasswordFn (email) {
   }
 }
 
-export async function verifyEmailFn (email, otp) {
+export async function verifyEmailFn(email, otp) {
   try {
     const body = { otp };
     const response = await authApi.post(`/auth/email/verify/${email}`, body);
@@ -70,7 +72,7 @@ export async function verifyEmailFn (email, otp) {
   }
 }
 
-export async function resendVerificationEmailFn (email, password) {
+export async function resendVerificationEmailFn(email, password) {
   try {
     const body = { email, password };
     const response = await authApi.get(`/auth/email/resend/${email}`, body);
@@ -81,10 +83,10 @@ export async function resendVerificationEmailFn (email, password) {
   }
 }
 
-export async function confirmPasswordTokenFn (email, token) {
+export async function confirmPasswordTokenFn(email, token) {
   try {
     const body = { email, token };
-    const response = await authApi.get('/auth/confirm-token', body);
+    const response = await authApi.get("/auth/confirm-token", body);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -92,7 +94,7 @@ export async function confirmPasswordTokenFn (email, token) {
   }
 }
 
-export async function getRefferalsFn (code) {
+export async function getRefferalsFn(code) {
   try {
     const response = await authApi.get(`/auth/refferals/${code}`);
     return response.data;
