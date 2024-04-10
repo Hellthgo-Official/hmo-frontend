@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import accountVerificationImg from '../../assets/images/Account verification with password and 3d padlock.svg';
-import { Link } from 'react-router-dom';
-// import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { resetPasswordFn } from '../../api/auth';
 
-const ForgotPassword = () => {
+const ResetPassword = () => {
+  const navigate = useNavigate();
+
   const initialFormData = {
     email: '',
-    phoneNumber: '',
+    password: '',
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -15,14 +18,20 @@ const ForgotPassword = () => {
     setFormData({ ...formData, [key]: value });
   };
 
-  // const forgotPasswordMutation = useMutation({
-  //   mutationFn: forgo
-  // })
+  const ResetPasswordMutation = useMutation({
+    mutationFn: resetPasswordFn,
+    onSuccess: () => {
+      setFormData(initialFormData);
+      navigate('/signin', { replace: true });
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    setFormData(initialFormData);
+    ResetPasswordMutation.mutate(formData);
   };
 
   return (
@@ -31,10 +40,10 @@ const ForgotPassword = () => {
         <div className="my-[62px] flex flex-col md:flex-row w-full lg:w-[90%] justify-between items-center gap-[40px] md:gap-[101px] lg:gap-[201px]">
           <div className="w-[80%] md:w-[50%] text-center md:text-left">
             <h2 className="text-[28px] text-healthgoBlack font-bold leading-[30.8px] tracking-[-2%]">
-              Forgot Password
+              Reset Password
             </h2>
             <p className="font-light text-[1rem] leading-[20.8px] tracking-[-2%] text-black-200 mt-2">
-              A link to reset the password will be sent to your mail
+              You can now reset your password!
             </p>
             <img
               src={accountVerificationImg}
@@ -60,14 +69,14 @@ const ForgotPassword = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="phoneNumber">Phone Number</label>
+                <label htmlFor="password">New Password</label>
                 <input
-                  type="tel"
-                  id="phoneNumber"
+                  type="password"
+                  id="password"
                   className="auth-input"
-                  value={formData.phoneNumber}
+                  value={formData.password}
                   onChange={(e) =>
-                    handleInputChange('phoneNumber', e.target.value)
+                    handleInputChange('password', e.target.value)
                   }
                 />
               </div>
@@ -75,15 +84,10 @@ const ForgotPassword = () => {
               <div className="mt-[30px] flex flex-col gap-[20px]">
                 <button
                   type="submit"
-                  className="bg-secondary w-full font-barlow font-semibold text-[14px] leading-[21px] tracking-[2%} text-white px-[1rem] py-[0.5rem] rounded-[4px] flex justify-center items-center gap-[8px] h-[3rem]"
+                  className="primary-btn"
                 >
                   Reset Password
                 </button>
-                <Link to="/signin">
-                  <button className="bg-transparent border border-secondary w-full font-barlow font-semibold px-[1rem] py-[0.5rem] h-[48px] rounded-[4px]">
-                    Back
-                  </button>
-                </Link>
               </div>
             </form>
           </div>
@@ -93,4 +97,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ResetPassword;

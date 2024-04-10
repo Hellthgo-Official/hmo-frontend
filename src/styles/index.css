@@ -39,3 +39,7 @@
 .form-group .auth-psw-input:focus {
   @apply outline-none;
 }
+
+.primary-btn {
+  @apply bg-secondary w-full font-barlow font-semibold text-[14px] leading-[21px] tracking-[2%] text-white px-[1rem] py-[0.5rem] rounded-[4px] flex justify-center items-center gap-[8px] h-[3rem] disabled:opacity-[0.5];
+}

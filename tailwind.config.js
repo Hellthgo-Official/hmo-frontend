@@ -43,7 +43,7 @@ export default {
       },
       borderColor: {
         primary: '#B8E5CA',
-        green: '#07A53D',
+        // green: '#07A53D',
       },
     },
   },
