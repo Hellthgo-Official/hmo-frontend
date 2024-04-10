@@ -2,6 +2,7 @@ import { useState } from 'react';
 import accountVerificationImg from '../../assets/images/Account verification with password and 3d padlock.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
 import eye from '../../assets/images/eyes-open.svg';
+import eyeClosed from '../../assets/images/eyes-closed.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { signinUserFn } from '../../api/auth';
@@ -18,6 +19,8 @@ const Signin = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [pswInputFocus, setPswInputFocus] = useState(false);
+
+  const passwordIcon = showPassword ? eye : eyeClosed;
 
   const handlePswInputFocus = () => {
     setPswInputFocus(true);
@@ -36,9 +39,9 @@ const Signin = () => {
   const signinMutation = useMutation({
     mutationFn: signinUserFn,
     onSuccess: (data) => {
-      console.log(data);
+      console.log(data.user);
       setFormData(initialFormData);
-      storeLogin(data);
+      storeLogin(data.user);
       navigate('/');
     },
     onError: (error) => {
@@ -106,9 +109,9 @@ const Signin = () => {
                     onBlur={() => setPswInputFocus(false)}
                   />
                   <img
-                    src={eye}
+                    src={passwordIcon}
                     onClick={toggleShowPassword}
-                    className="w-[25px] h-[24px]"
+                    className="w-[25px] h-[24px] cursor-pointer"
                     alt="eye"
                   />
                 </div>
@@ -129,7 +132,7 @@ const Signin = () => {
                   </button>
                 </Link>
 
-                <Link to='/forgot-password'>
+                <Link to='/get-otp' >
                   <div className="font-barlow font-semibold text-[12px] text-secondary text-center leading-[18px] tracking-[2%]">
                     Forgot password?
                   </div>

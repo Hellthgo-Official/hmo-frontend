@@ -1,24 +1,8 @@
-import { authApi } from "..";
+import { authApi } from '..';
 
-export async function signupUserFn(
-  email,
-  firstName,
-  lastName,
-  password,
-  confirmPassword,
-  number
-) {
+export async function signupUserFn(body) {
   try {
-    const body = {
-      email,
-      firstName,
-      lastName,
-      password,
-      confirmPassword,
-      number
-    };
-
-    const response = await authApi.post("/auth/signup", body);
+    const response = await authApi.post('/auth/signup', body);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -28,7 +12,7 @@ export async function signupUserFn(
 
 export async function signinUserFn(body) {
   try {
-    const response = await authApi.post("/auth/signin", body);
+    const response = await authApi.post('/auth/signin', body);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -36,14 +20,9 @@ export async function signinUserFn(body) {
   }
 }
 
-export async function resetPasswordFn(email, password) {
+export async function resetPasswordFn(body) {
   try {
-    const body = {
-      email,
-      password
-    };
-
-    const response = await authApi.post("/auth/reset-password", body);
+    const response = await authApi.post('/auth/reset-password', body);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -51,7 +30,7 @@ export async function resetPasswordFn(email, password) {
   }
 }
 
-export async function recoverPasswordFn(email) {
+export async function recoverPasswordByMailFn(email) {
   try {
     const response = await authApi.get(`/auth/recover-password/${email}`);
     return response.data;
@@ -61,9 +40,8 @@ export async function recoverPasswordFn(email) {
   }
 }
 
-export async function verifyEmailFn(email, otp) {
+export async function verifyEmailFn(email, body) {
   try {
-    const body = { otp };
     const response = await authApi.post(`/auth/email/verify/${email}`, body);
     return response.data;
   } catch (error) {
@@ -83,10 +61,9 @@ export async function resendVerificationEmailFn(email, password) {
   }
 }
 
-export async function confirmPasswordTokenFn(email, token) {
+export async function confirmPasswordTokenFn(body) {
   try {
-    const body = { email, token };
-    const response = await authApi.get("/auth/confirm-token", body);
+    const response = await authApi.post('/auth/confirm-token', body);
     return response.data;
   } catch (error) {
     console.error(error);

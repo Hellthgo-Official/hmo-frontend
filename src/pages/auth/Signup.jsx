@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import accountVerificationImg from '../../assets/images/Account verification with password and 3d padlock.svg';
-import google from '../../assets/images/Google.svg';
-import ios from '../../assets/images/ios.svg';
 import arrowRight from '../../assets/images/arrow-right.svg';
 import eye from '../../assets/images/eyes-open.svg';
+import eyeClosed from '../../assets/images/eyes-closed.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { signupUserFn } from '../../api/auth';
@@ -13,22 +12,39 @@ const Signup = () => {
 
   const initialFormData = {
     email: '',
-    fullName: '',
+    firstName: '',
+    lastName: '',
+    username: '',
     phoneNumber: '',
     password: '',
+    confirmPassword: ''
   };
 
   const [formData, setFormData] = useState(initialFormData);
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
   const [pswInputFocus, setPswInputFocus] = useState(false);
+  const [confirmPswInputFocus, setConfirmPswInputFocus] = useState(false);
+
+  const passwordIcon = showPassword ? eye : eyeClosed;
+  const confirmPasswordIcon = showConfirmPassword ? eye : eyeClosed;
 
   const handlePswInputFocus = () => {
     setPswInputFocus(true);
   };
 
+  const handleConfirmPswInputFocus = () => {
+    setConfirmPswInputFocus(true);
+  };
+
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   const handleInputChange = (key, value) => {
@@ -37,10 +53,9 @@ const Signup = () => {
 
   const signupMutation = useMutation({
     mutationFn: signupUserFn,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       setFormData(initialFormData);
-      navigate('/signin');
+      navigate('/verify-email',{ state: formData.email, replace: true });
     },
     onError: (error) => {
       console.log(error);
@@ -72,18 +87,7 @@ const Signup = () => {
           </div>
 
           <div className="w-full md:w-[50%] shadow-authFormContainer p-[30px] rounded-[1.25rem] md:rounded-[0.75rem]">
-            <div className="hidden md:flex md:flex-col lg:flex-row justify-between gap-[12px]">
-              <a className="o-auth-btn py-[11px]">
-                Continue with <img src={google} alt="Google" />
-              </a>
-              <a className="o-auth-btn py-[8px]">
-                Continue with <img src={ios} alt="Ios" />
-              </a>
-            </div>
-            <form
-              className="mt-[30px] flex flex-col gap-[20px]"
-              
-            >
+            <form className="mt-[30px] flex flex-col gap-[20px]">
               <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
@@ -96,14 +100,40 @@ const Signup = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="fullName">Full Name</label>
+                <label htmlFor="firstName">First Name</label>
                 <input
                   type="text"
-                  id="fullName"
+                  id="firstName"
                   className="auth-input"
-                  value={formData.fullName}
+                  value={formData.firstName}
                   onChange={(e) =>
-                    handleInputChange('fullName', e.target.value)
+                    handleInputChange('firstName', e.target.value)
+                  }
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  className="auth-input"
+                  value={formData.lastName}
+                  onChange={(e) =>
+                    handleInputChange('lastName', e.target.value)
+                  }
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="username">Username</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  className="auth-input"
+                  value={formData.username}
+                  onChange={(e) =>
+                    handleInputChange('username', e.target.value)
                   }
                 />
               </div>
@@ -142,9 +172,40 @@ const Signup = () => {
                     onBlur={() => setPswInputFocus(false)}
                   />
                   <img
-                    src={eye}
+                    src={passwordIcon}
                     onClick={toggleShowPassword}
-                    className="w-[25px] h-[24px]"
+                    className="w-[25px] h-[24px] cursor-pointer"
+                    alt="eye"
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <div
+                  className={`flex flex-row justify-between items-center ${
+                    confirmPswInputFocus ? 'border-[2px]' : 'border'
+                  } ${
+                    confirmPswInputFocus
+                      ? 'border-green-300'
+                      : 'border-green-200'
+                  }  bg-green-100 rounded-[8px] h-[3rem] w-full px-[0.5rem]`}
+                >
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    id="confirmPassword"
+                    className="auth-psw-input"
+                    value={formData.confirmPassword}
+                    onChange={(e) =>
+                      handleInputChange('confirmPassword', e.target.value)
+                    }
+                    onFocus={handleConfirmPswInputFocus}
+                    onBlur={() => setPswInputFocus(false)}
+                  />
+                  <img
+                    src={confirmPasswordIcon}
+                    onClick={toggleShowConfirmPassword}
+                    className="w-[25px] h-[24px] cursor-pointer"
                     alt="eye"
                   />
                 </div>
