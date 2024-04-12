@@ -1,6 +1,15 @@
+import { useNavigate } from 'react-router-dom';
 import Logo from '../assets/images/logo.png';
+import useAuthStore from '../store/auth';
 
 const Navbar = () => {
+  const navigate = useNavigate()
+  const storeLogout = useAuthStore((state) => state.setLogout);
+  
+  const handleLogout = () => {
+    navigate('/signin');
+    storeLogout();
+  }
   return (
     <div className="w-full bg-secondaryBG fixed top-0 z-10 px-7 py-4 flex">
       <div className="flex space-x-3 items-center">
@@ -9,6 +18,8 @@ const Navbar = () => {
           <p className="text-lg font-semibold leading-5">HealthGO</p>
           <p className="text-xs">...quality healthcare for all...</p>
         </div>
+
+        <button onClick={handleLogout}>Logout</button>
 
         <svg
           xmlns="http://www.w3.org/2000/svg"
