@@ -18,36 +18,30 @@ import ProtectedRoute from './components/ProtectedRoute';
 const App = () => {
   return (
     <Router>
-      <Navbar />
-      <div className="pt-20">
-        <Routes>
-          <Route path="/" element={<PlanSelection />} />
-          <Route path="/verify-account" element={<VerifyAccount />} />
-          <Route
-            path="/verify-account/next-of-kin"
-            element={<VerifyKinAccount />}
-          />
-          <Route path="/available-packages" element={<AvailablePackages />} />
-          <Route path="/payment-plan" element={<PaymentPlan />} />
-          <Route path="/payment-plan/daily" element={<PaymentPlanSpan />} />
-          <Route path="/payment-checkout" element={<PaymentCheckout />} />
-          <Route path="/wallet" element={<Wallet />} />
-        </Routes>
-      </div>
-      <Footer />
       <AuthProvider>
-        <div>
-          <Navbar />
+        <Navbar />
+        <div className="pt-20">
           <Routes>
             <Route path="/signup" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/" element={<PlanSelection />} />
-            </Route>
+            {/* <Route element={<ProtectedRoute />}> */}
+            <Route path="/" element={<PlanSelection />} />
+            <Route path="/verify-account" element={<VerifyAccount />} />
+            <Route
+              path="/verify-account/next-of-kin"
+              element={<VerifyKinAccount />}
+            />
+            <Route path="/available-packages" element={<AvailablePackages />} />
+            <Route path="/payment-plan" element={<PaymentPlan />} />
+            <Route path="/payment-plan/daily" element={<PaymentPlanSpan />} />
+            <Route path="/payment-checkout" element={<PaymentCheckout />} />
+            <Route path="/wallet" element={<Wallet />} />
+            {/* </Route> */}
             <Route path="*" element={<Signin />} />
           </Routes>
         </div>
+        <Footer />
       </AuthProvider>
     </Router>
   );
