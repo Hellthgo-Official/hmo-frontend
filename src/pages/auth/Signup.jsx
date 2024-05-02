@@ -17,14 +17,14 @@ const Signup = () => {
     username: '',
     phoneNumber: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   };
 
   const [formData, setFormData] = useState(initialFormData);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  
+
   const [pswInputFocus, setPswInputFocus] = useState(false);
   const [confirmPswInputFocus, setConfirmPswInputFocus] = useState(false);
 
@@ -55,16 +55,29 @@ const Signup = () => {
     mutationFn: signupUserFn,
     onSuccess: () => {
       setFormData(initialFormData);
-      navigate('/verify-email',{ state: formData.email, replace: true });
+      navigate('/verify-email', { state: formData.email, replace: true });
     },
     onError: (error) => {
       console.log(error);
     },
-  })
+  });
+
+  const [username, setUsername] = useState('');
+
+  const handleUsernameChange = (event) => {
+    const input = event.target.value.replace(/[^a-zA-Z0-9]/g, ''); // Allow only alphanumeric characters
+    setUsername(input.slice(0, 12)); // Limit to maximum 12 characters
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signupMutation.mutate(formData);
+    const mainData = {
+      ...formData,
+
+      username,
+    };
+
+    signupMutation.mutate(mainData);
   };
 
   return (
@@ -129,12 +142,14 @@ const Signup = () => {
                 <label htmlFor="username">Username</label>
                 <input
                   type="text"
-                  id="firstName"
+                  id="username"
                   className="auth-input"
-                  value={formData.username}
-                  onChange={(e) =>
-                    handleInputChange('username', e.target.value)
-                  }
+                  value={username}
+                  onChange={handleUsernameChange}
+                  maxLength={12} // Limit input to 12 characters
+                  pattern="[a-zA-Z0-9]+" // Allow only alphanumeric characters
+                  title="Username must be alphanumeric and maximum 12 characters"
+                  required
                 />
               </div>
 
@@ -211,14 +226,26 @@ const Signup = () => {
                 </div>
               </div>
 
+              {signupMutation.isError && (
+                <p className="text-red-600 text-sm">
+                  {signupMutation.error.message}
+                </p>
+              )}
+
               <div className="mt-[30px] flex flex-col gap-[20px]">
                 <button
                   type="submit"
                   onClick={handleSubmit}
-                  disabled={signupMutation.isLoading}
+                  disabled={signupMutation.isPending}
                   className="bg-secondary w-full font-barlow font-semibold text-[14px] leading-[21px] tracking-[2%} text-white px-[1rem] py-[0.5rem] rounded-[4px] flex justify-center items-center gap-[8px] h-[3rem]"
                 >
-                  Create Account <img src={arrowRight} alt="arrow-right" />
+                  {signupMutation.isPending ? (
+                    <>Loading...</>
+                  ) : (
+                    <>
+                      Create Account <img src={arrowRight} alt="arrow-right" />
+                    </>
+                  )}
                 </button>
                 <Link to="/signin">
                   <button className="bg-transparent border border-secondary w-full font-barlow font-semibold px-[1rem] py-[0.5rem] h-[48px] rounded-[4px]">
@@ -235,3 +262,4 @@ const Signup = () => {
 };
 
 export default Signup;
+

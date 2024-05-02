@@ -1,6 +1,6 @@
 import React from 'react';
-import CustomButton from '../components/CustomButton';
-import { PlanList } from '../utils/data/Plans';
+import CustomButton from '../../components/CustomButton';
+import { PlanList } from '../../utils/data/Plans';
 
 const AvailablePackages = () => {
   return (

@@ -1,27 +1,25 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import accountVerificationImg from '../../assets/images/Account verification with password and 3d padlock.svg';
 import { useMutation } from '@tanstack/react-query';
 import { verifyEmailFn } from '../../api/auth';
 import { useNavigate, useLocation } from 'react-router-dom';
+import useAuthStore from '../../store/auth/index';
 
 const VerifyMail = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  console.log(state.email);
-
   const [otp, setOtp] = useState('');
 
-
-const VerifyEmailMutation = useMutation({
-  mutationFn: verifyEmailFn,
-  onSuccess: () => {
-    navigate('/signin', { replace: true });
-  },
-  onError: (error) => {
-    console.log(error);
-  },
-});
+  const VerifyEmailMutation = useMutation({
+    mutationFn: verifyEmailFn,
+    onSuccess: () => {
+      navigate('/signin', { replace: true });
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,7 +49,7 @@ const VerifyEmailMutation = useMutation({
               className="mt-[30px] flex flex-col gap-[20px]"
               onSubmit={handleSubmit}
             >
-              <div className="form-group">  
+              <div className="form-group">
                 <label htmlFor="otp">OTP</label>
                 <input
                   type="text"
@@ -69,9 +67,7 @@ const VerifyEmailMutation = useMutation({
               <div className="mt-[30px] flex flex-col gap-[20px]">
                 <button
                   type="submit"
-                  disabled={
-                    otp === '' || VerifyEmailMutation.isLoading
-                  }
+                  disabled={otp === '' || VerifyEmailMutation.isLoading}
                   className="primary-btn"
                 >
                   Verify Email
@@ -83,6 +79,7 @@ const VerifyEmailMutation = useMutation({
       </div>
     </div>
   );
-}
+};
 
-export default VerifyMail
+export default VerifyMail;
+

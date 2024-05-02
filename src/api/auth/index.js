@@ -80,3 +80,17 @@ export async function getRefferalsFn(code) {
     throw new Error(error.response.data.message);
   }
 }
+
+export async function updateUserRecordFn(body) {
+  try {
+    const response = await authApi.post(
+      `/auth/update-records/${body.userId}`,
+      body,
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.response.data.message);
+  }
+}
+
