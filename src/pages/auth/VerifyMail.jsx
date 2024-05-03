@@ -1,31 +1,43 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import accountVerificationImg from '../../assets/images/Account verification with password and 3d padlock.svg';
 import { useMutation } from '@tanstack/react-query';
-import { verifyEmailFn } from '../../api/auth';
+import { resendVerificationEmailFn, verifyEmailFn } from '../../api/auth';
 import { useNavigate, useLocation } from 'react-router-dom';
+import useAuthStore from '../../store/auth/index';
 
 const VerifyMail = () => {
   const navigate = useNavigate();
-  const { state } = useLocation();
-
-  console.log(state.email);
+  const registerData = useAuthStore((state) => state.registerData);
 
   const [otp, setOtp] = useState('');
 
+  const VerifyEmailMutation = useMutation({
+    mutationFn: verifyEmailFn,
+    onSuccess: () => {
+      navigate('/signin', { replace: true });
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
-const VerifyEmailMutation = useMutation({
-  mutationFn: verifyEmailFn,
-  onSuccess: () => {
-    navigate('/signin', { replace: true });
-  },
-  onError: (error) => {
-    console.log(error);
-  },
-});
+  const resendOTPMutation = useMutation({
+    mutationFn: resendVerificationEmailFn,
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    VerifyEmailMutation.mutate(state.email, { otp });
+    VerifyEmailMutation.mutate({ otp, email: registerData.email });
+  };
+
+  const resendOTP = () => {
+    resendOTPMutation.mutate(registerData.email);
   };
 
   return (
@@ -51,7 +63,7 @@ const VerifyEmailMutation = useMutation({
               className="mt-[30px] flex flex-col gap-[20px]"
               onSubmit={handleSubmit}
             >
-              <div className="form-group">  
+              <div className="form-group">
                 <label htmlFor="otp">OTP</label>
                 <input
                   type="text"
@@ -62,19 +74,46 @@ const VerifyEmailMutation = useMutation({
                 />
               </div>
 
-              <div className="text-secondary text-right mt-4 cursor-pointer">
-                <p>Resend OTP</p>
-              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  resendOTP();
+                }}
+                className="text-secondary text-right mt-4 cursor-pointer"
+              >
+                {resendOTPMutation.isPending ? (
+                  <p>Loading...</p>
+                ) : (
+                  <p>Resend OTP</p>
+                )}
+              </button>
+
+              {resendOTPMutation.isSuccess && (
+                <span className="text-sm text-green-500 my-2">
+                  {resendOTPMutation.data.message}
+                </span>
+              )}
+
+              {resendOTPMutation.isError && (
+                <span className="text-sm text-red-500 my-2">
+                  {resendOTPMutation.error.message}
+                </span>
+              )}
+              {VerifyEmailMutation.isError && (
+                <span className="text-sm text-red-500 my-2">
+                  {VerifyEmailMutation.error.message}
+                </span>
+              )}
 
               <div className="mt-[30px] flex flex-col gap-[20px]">
                 <button
                   type="submit"
-                  disabled={
-                    otp === '' || VerifyEmailMutation.isLoading
-                  }
+                  disabled={otp === '' || VerifyEmailMutation.isPending}
                   className="primary-btn"
                 >
-                  Verify Email
+                  {VerifyEmailMutation.isPending
+                    ? 'Loading...'
+                    : 'Verify Email'}
                 </button>
               </div>
             </form>
@@ -83,6 +122,7 @@ const VerifyEmailMutation = useMutation({
       </div>
     </div>
   );
-}
+};
 
-export default VerifyMail
+export default VerifyMail;
+

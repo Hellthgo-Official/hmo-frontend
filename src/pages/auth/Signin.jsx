@@ -39,7 +39,6 @@ const Signin = () => {
   const signinMutation = useMutation({
     mutationFn: signinUserFn,
     onSuccess: (data) => {
-      console.log(data.user);
       setFormData(initialFormData);
       storeLogin(data.user);
       navigate('/');
@@ -47,7 +46,7 @@ const Signin = () => {
     onError: (error) => {
       console.log(error);
     },
-  })
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -74,9 +73,7 @@ const Signin = () => {
           </div>
 
           <div className="w-full md:w-[50%] shadow-authFormContainer p-[30px] rounded-[1.25rem] md:rounded-[0.75rem]">
-            <form
-              className="mt-[30px] flex flex-col gap-[20px]"
-            >
+            <form className="mt-[30px] flex flex-col gap-[20px]">
               <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
@@ -124,7 +121,13 @@ const Signin = () => {
                   disabled={signinMutation.isLoading}
                   className="bg-secondary w-full font-barlow font-semibold text-[14px] leading-[21px] tracking-[2%} text-white px-[1rem] py-[0.5rem] rounded-[4px] flex justify-center items-center gap-[8px] h-[3rem]"
                 >
-                  Log in <img src={arrowRight} alt="arrow-right" />
+                  {signinMutation.isPending ? (
+                    <>Loading...</>
+                  ) : (
+                    <>
+                      Log in <img src={arrowRight} alt="arrow-right" />
+                    </>
+                  )}
                 </button>
                 <Link to="/signup">
                   <button className="bg-transparent border border-secondary w-full font-barlow font-semibold px-[1rem] py-[0.5rem] h-[48px] rounded-[4px]">
@@ -132,7 +135,7 @@ const Signin = () => {
                   </button>
                 </Link>
 
-                <Link to='/get-otp' >
+                <Link to="/get-otp">
                   <div className="font-barlow font-semibold text-[12px] text-secondary text-center leading-[18px] tracking-[2%]">
                     Forgot password?
                   </div>
@@ -147,3 +150,4 @@ const Signin = () => {
 };
 
 export default Signin;
+

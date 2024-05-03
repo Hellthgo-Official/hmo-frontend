@@ -1,6 +1,6 @@
-import InputBox from '../components/InputBox';
-import CustomButton from '../components/CustomButton';
-import Popup from '../components/Popup';
+import InputBox from '../../components/InputBox';
+import CustomButton from '../../components/CustomButton';
+import Popup from '../../components/Popup';
 
 const VerifyKinAccount = () => {
   return (
