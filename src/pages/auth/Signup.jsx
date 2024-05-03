@@ -6,6 +6,7 @@ import eyeClosed from '../../assets/images/eyes-closed.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { signupUserFn } from '../../api/auth';
+import useAuthStore from '../../store/auth';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -51,11 +52,14 @@ const Signup = () => {
     setFormData({ ...formData, [key]: value });
   };
 
+  const storeData = useAuthStore((state) => state.setRegisterData);
+
   const signupMutation = useMutation({
     mutationFn: signupUserFn,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      storeData(data);
       setFormData(initialFormData);
-      navigate('/verify-email', { state: formData.email, replace: true });
+      navigate('/verify-email');
     },
     onError: (error) => {
       console.log(error);
@@ -73,7 +77,6 @@ const Signup = () => {
     e.preventDefault();
     const mainData = {
       ...formData,
-
       username,
     };
 

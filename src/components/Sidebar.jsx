@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSidebarStore } from './Navbar';
+import useAuthStore from '../store/auth';
+import useWalletStore from '../store/wallet';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -21,6 +23,15 @@ const Sidebar = () => {
   const handleNavigate = (page) => {
     navigate(page);
     setShowSidebar(!showSidebar);
+  };
+
+  const storeLogout = useAuthStore((state) => state.setLogout);
+  const storeWalletLogout = useWalletStore((state) => state.setWallet);
+
+  const handleLogout = () => {
+    navigate('/signin');
+    storeLogout();
+    storeWalletLogout();
   };
 
   return (
@@ -49,7 +60,6 @@ const Sidebar = () => {
 
         <p className="text-xl">Home</p>
       </button>
-
       <button
         onClick={() => {
           handleNavigate('/wallet');
@@ -86,7 +96,6 @@ const Sidebar = () => {
           Wallet
         </p>
       </button>
-
       <div className="w-full rounded-lg group hover:bg-secondaryBG h-16 flex items-center px-5 space-x-3">
         <svg
           width="24"
@@ -113,7 +122,6 @@ const Sidebar = () => {
           Pay next due amount
         </p>
       </div>
-
       <div className="w-full rounded-lg group hover:bg-secondaryBG h-16 flex items-center px-5 space-x-3">
         <svg
           width="24"
@@ -140,7 +148,6 @@ const Sidebar = () => {
           Package Benefits
         </p>
       </div>
-
       <div className="w-full rounded-lg group hover:bg-secondaryBG h-16 flex items-center px-5 space-x-3">
         <svg
           width="24"
@@ -160,7 +167,6 @@ const Sidebar = () => {
           Referrals
         </p>
       </div>
-
       <div className="w-full rounded-lg group hover:bg-secondaryBG h-16 flex items-center px-5 space-x-3">
         <svg
           width="24"
@@ -187,7 +193,6 @@ const Sidebar = () => {
           Account Verification
         </p>
       </div>
-
       <div className="w-full rounded-lg group hover:bg-secondaryBG h-16 flex items-center px-5 space-x-3">
         <svg
           width="24"
@@ -214,6 +219,34 @@ const Sidebar = () => {
           Connected Hospitals
         </p>
       </div>
+      <button
+        onClick={handleLogout}
+        className="w-full rounded-lg h-16 flex items-center px-5 space-x-3"
+      >
+        <p className="text-black-200 text-xl font-light group-hover:text-white group-hover:font-bold">
+          Log out
+        </p>
+
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g clip-path="url(#clip0_4630_12940)">
+            <path
+              d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.58L17 17L22 12L17 7ZM4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z"
+              fill="#323232"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_4630_12940">
+              <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      </button>
     </div>
   );
 };

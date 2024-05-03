@@ -36,15 +36,15 @@ const Profile = (props: Props) => {
           <InputBox title={'First name'} value={user.firstName} />
           <InputBox title={'Last name'} value={user.lastName} />
           <InputBox title={'Email address'} type="email" value={user.email} />
-          <InputBox title={'Phone number'} type="number" value={user.number} />
-          <InputBox title={'House address'} value={user.address} />
+          <InputBox title={'Phone number'} type="number" value={user.phone} />
+          <InputBox title={'House address'} value={user.streetAddress} />
         </div>
 
         <CustomButton
           linkRoute="/"
           linkTitle="Save changes"
           buttonType="full"
-          extraClassNames="my-10 lg:w-1/2 lg:mx-auto"
+          extraClassNames="mt-10 lg:w-1/2 lg:mx-auto"
         />
       </form>
     </div>

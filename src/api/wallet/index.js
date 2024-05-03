@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { walletApi } from '..';
 
 export async function createWalletFn(body) {
@@ -57,6 +58,30 @@ export async function verifyNinFn(body) {
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.error);
+  }
+}
+
+export async function getBanksFn() {
+  try {
+    const response = await axios.post(
+      `https://www.toronet.org/api/payment/toro/`,
+      {
+        op: 'getbanklist_ngn',
+        params: [],
+      },
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+}
+
+export async function resolveBankFn(body) {
+  try {
+    const response = await walletApi.post(`/toronet/resolve-bank`, body);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
   }
 }
 

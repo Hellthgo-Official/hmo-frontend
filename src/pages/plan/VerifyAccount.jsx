@@ -1,11 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { createWalletFn, verifyBvnFn, verifyNinFn } from '../../api/wallet';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { updateUserRecordFn } from '../../api/auth';
+import { createWalletFn, verifyBvnFn } from '../../api/wallet';
 import CustomButton from '../../components/CustomButton';
 import InputBox from '../../components/InputBox';
 import useAuthStore from '../../store/auth';
-import { useNavigate } from 'react-router-dom';
-import { updateUserRecordFn } from '../../api/auth';
+import NaijaStates from 'naija-state-local-government';
+import Select from 'react-dropdown-select';
 
 const VerifyAccount = () => {
   // const navigate = useNavigate();
@@ -29,11 +31,16 @@ const VerifyAccount = () => {
 
   const [formData, setFormData] = useState(initialFormData);
   const [errorBvnMsg, setErrorBvnMsg] = useState('');
-  const [errorNinMsg, setErrorNinMsg] = useState('');
   const [errorUserMsg, setErrorUserMsg] = useState('');
   const [successBvnMsg, setSuccessBvnMsg] = useState('');
-  const [successNinMsg, setSuccessNinMsg] = useState('');
   const [successUserMsg, setSuccessUserMsg] = useState('');
+  const stateList = NaijaStates.states();
+
+  const stateOptions = stateList.map((item) => {
+    return { value: item, label: item };
+  });
+
+  const [values, setValues] = useState([]);
 
   const handleInputChange = (key, value) => {
     setFormData({ ...formData, [key]: value });
@@ -53,25 +60,26 @@ const VerifyAccount = () => {
     },
   });
 
+  const createWalletMutation = useMutation({
+    mutationFn: createWalletFn,
+    onSuccess: (data) => {},
+    onError: (error) => {
+      console.log(error.message);
+    },
+  });
+
+  const userData = {
+    userId: user._id,
+  };
+
   const bvnMutation = useMutation({
     mutationFn: verifyBvnFn,
     onSuccess: (data) => {
       setSuccessBvnMsg(data.message);
-      storeLogin(data.user);
+      createWalletMutation.mutate(userData);
     },
     onError: (error) => {
       setErrorBvnMsg(error.message);
-    },
-  });
-
-  const ninMutation = useMutation({
-    mutationFn: verifyNinFn,
-    onSuccess: (data) => {
-      setSuccessNinMsg(data.message);
-      storeLogin(data.user);
-    },
-    onError: (error) => {
-      setErrorNinMsg(error.message);
     },
   });
 
@@ -83,14 +91,6 @@ const VerifyAccount = () => {
         lastname: formData.lastname,
         bvn: formData.bvn,
       });
-
-    !user.ninVerified &&
-      ninMutation.mutate({
-        userId: user._id,
-        firstname: formData.firstname,
-        lastname: formData.lastname,
-        nin: formData.nin,
-      });
   };
 
   const handleSubmit = (e) => {
@@ -99,7 +99,7 @@ const VerifyAccount = () => {
     updateUserRecordMutation.mutate({
       streetAddress: formData.streetAddress,
       phone: formData.phone,
-      state: formData.state,
+      state: values[0].value,
       zipCode: formData.zipCode,
       city: formData.city,
       country: formData.country,
@@ -107,35 +107,15 @@ const VerifyAccount = () => {
     });
   };
 
+  useEffect(() => {
+    createWalletMutation.isSuccess && storeLogin(bvnMutation.data.user);
+  }, [createWalletMutation.status]);
+
   const navigate = useNavigate();
 
-  const createWalletMutation = useMutation({
-    mutationFn: createWalletFn,
-    onSuccess: (data) => {
-      storeWallet(data.data);
-      navigate('/');
-    },
-    onError: (error) => {
-      console.log(error.message);
-      setError(error.message);
-    },
-  });
-
-  const finalizeVerification = () => {
-    createWalletMutation.mutate({ userId: user._id });
-  };
-
   useEffect(() => {
-    ninMutation.isSuccess && bvnMutation.isSuccess && finalizeVerification();
-  }, [ninMutation.status, bvnMutation.status]);
-
-  useEffect(() => {
-    user.ninVerified && user.bvnVerified && navigate('/');
+    user.bvnVerified && navigate('/');
   }, [user]);
-
-  useEffect(() => {
-    createWalletMutation.isSuccess && navigate('/');
-  }, [createWalletMutation.status]);
 
   return (
     <div className="flex flex-col p-5">
@@ -174,33 +154,32 @@ const VerifyAccount = () => {
           title={'City'}
           onChange={(e) => handleInputChange('city', e.target.value)}
         />
-        <InputBox
-          title={'State'}
-          onChange={(e) => handleInputChange('state', e.target.value)}
+        <p className="text-xs lg:text-lg font-light">State</p>
+        <Select
+          options={stateOptions}
+          onChange={(values) => {
+            setValues(values);
+          }}
+          values={values}
+          className="w-full text-sm bg-blandGreen outline-green-700"
+          searchBy="value"
+          style={{
+            padding: '12px',
+            borderRadius: '8px',
+            border: '1px solid #B8E5CA',
+          }}
         />
         <InputBox
           title={'Country'}
           onChange={(e) => handleInputChange('country', e.target.value)}
+          value="Nigeria"
+          disabled
         />
         <InputBox
           title={'Zip Code'}
           onChange={(e) => handleInputChange('zipCode', e.target.value)}
         />
-        <InputBox
-          maxLength={11}
-          title={'NIN'}
-          onChange={(e) => handleInputChange('nin', e.target.value)}
-          value={formData.nin}
-        />
-        {user.ninVerified && (
-          <p className="text-sm text-green-600">Nin Verified</p>
-        )}
-        {ninMutation.isSuccess && (
-          <p className="text-sm text-green-600">{successNinMsg}</p>
-        )}
-        {ninMutation.isError && (
-          <p className="text-sm text-red-600">{errorNinMsg}</p>
-        )}
+
         <InputBox
           maxLength={11}
           title={'BVN'}
@@ -210,12 +189,11 @@ const VerifyAccount = () => {
         {user.bvnVerified && (
           <p className="text-sm text-green-600">Bvn Verified</p>
         )}
+
         {bvnMutation.isSuccess && (
           <p className="text-sm text-green-600">{successBvnMsg}</p>
         )}
-        {createWalletMutation.isPending && (
-          <p className="text-sm text-green-600">Creating Wallet...</p>
-        )}
+
         {bvnMutation.isError && (
           <p className="text-sm text-red-600">{errorBvnMsg}</p>
         )}
@@ -223,22 +201,17 @@ const VerifyAccount = () => {
         {updateUserRecordMutation.isSuccess && (
           <p className="text-sm text-green-600">{successUserMsg}</p>
         )}
+
+        {createWalletMutation.isPending && (
+          <p className="text-sm text-green-600">Creating Wallet...</p>
+        )}
         <CustomButton
           buttonType="full"
           linkTitle="Next"
           buttonFn="submit"
           onClick={handleSubmit}
-          // loading={bvnMutation.isPending}
-          loading={
-            updateUserRecordMutation.isPending ||
-            bvnMutation.isPending ||
-            ninMutation.isPending
-          }
-          disabled={
-            updateUserRecordMutation.isPending ||
-            bvnMutation.isPending ||
-            ninMutation.isPending
-          }
+          loading={updateUserRecordMutation.isPending || bvnMutation.isPending}
+          disabled={updateUserRecordMutation.isPending || bvnMutation.isPending}
         />
 
         <p className="text-sm text-healthgoGreen font-semibold text-center">

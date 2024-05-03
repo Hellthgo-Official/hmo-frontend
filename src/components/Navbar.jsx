@@ -8,16 +8,6 @@ import { create } from 'zustand';
 import useWalletStore from '../store/wallet';
 
 const Navbar = () => {
-  const navigate = useNavigate();
-  const storeLogout = useAuthStore((state) => state.setLogout);
-  const storeWalletLogout = useWalletStore((state) => state.setWallet);
-
-  const handleLogout = () => {
-    navigate('/signin');
-    storeLogout();
-    storeWalletLogout();
-  };
-
   const date = moment().format('dddd; MMMM Do, YYYY');
   const time = moment().format('h:mm a');
 
@@ -40,7 +30,6 @@ const Navbar = () => {
         </div>
 
         <div className="flex space-x-3">
-          <button onClick={handleLogout}>Logout</button>
           <button onClick={handleSidebar}>
             <svg
               xmlns="http://www.w3.org/2000/svg"

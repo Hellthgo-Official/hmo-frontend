@@ -40,9 +40,11 @@ export async function recoverPasswordByMailFn(email) {
   }
 }
 
-export async function verifyEmailFn(email, body) {
+export async function verifyEmailFn(body) {
   try {
-    const response = await authApi.post(`/auth/email/verify/${email}`, body);
+    const response = await authApi.post(`/auth/email/verify/${body.email}`, {
+      otp: body.otp,
+    });
     return response.data;
   } catch (error) {
     console.error(error);
@@ -50,10 +52,9 @@ export async function verifyEmailFn(email, body) {
   }
 }
 
-export async function resendVerificationEmailFn(email, password) {
+export async function resendVerificationEmailFn(email) {
   try {
-    const body = { email, password };
-    const response = await authApi.get(`/auth/email/resend/${email}`, body);
+    const response = await authApi.get(`/auth/email/resend/${email}`);
     return response.data;
   } catch (error) {
     console.error(error);

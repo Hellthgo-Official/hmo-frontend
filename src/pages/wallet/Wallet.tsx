@@ -1,11 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  createWalletFn,
-  getWalletBalanceFn,
-  getWalletFn,
-} from '../../api/wallet';
+import { getWalletBalanceFn, getWalletFn } from '../../api/wallet';
 import useAuthStore from '../../store/auth';
 import useWalletStore from '../../store/wallet';
 
@@ -21,28 +17,12 @@ const Wallet = () => {
     userId: user._id,
   };
 
-  const createWalletMutation = useMutation({
-    mutationFn: createWalletFn,
+  const getWalletMutation = useMutation({
+    mutationFn: getWalletFn,
     onSuccess: (data) => {
       storeWallet(data.data);
     },
     onError: (error) => {
-      console.log(error.message);
-      setError(error.message);
-    },
-  });
-
-  const getWalletMutation = useMutation({
-    mutationFn: getWalletFn,
-    onSuccess: (data) => {
-      if (Object.keys(data).length === 0) {
-        createWalletMutation.mutate(formData);
-      } else {
-        storeWallet(data.data);
-      }
-    },
-    onError: (error) => {
-      console.log(error.message);
       setError(error.message);
     },
   });
@@ -55,7 +35,6 @@ const Wallet = () => {
       storeBalance(balance);
     },
     onError: (error) => {
-      console.log(error.message);
       setError(error.message);
     },
   });
@@ -283,7 +262,7 @@ const Wallet = () => {
                     </svg>
                   </button>
                 </Link>
-                <Link to={'#'}>
+                <Link to={'/withdraw-funds'}>
                   <button className="opacity-50 flex border border-primary w-full py-2 px-4 space-x-3 items-center justify-center rounded-lg ml-auto mr-auto">
                     <p className="text-[#A50707] text-xs font-semibold">
                       Withdraw
