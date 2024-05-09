@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import CustomButton from '../../components/CustomButton';
-import { useMutation } from '@tanstack/react-query';
-import { confirmPaymentFn, onrampFn } from '../../api/plan/index';
-import useAuthStore from '../../store/auth';
 import useWalletStore from '../../store/wallet';
 
 const FundWallet = () => {
@@ -37,7 +34,7 @@ const FundWallet = () => {
 
       <div className="flex justify-between py-3">
         <div className="flex flex-col items-start">
-          <p className="text-xs font-light">Account Number</p>
+          <p className="text-sm font-light">Account Number</p>
           <p className="text-sm">{paymentData.accountnumber}</p>
         </div>
         <div>
@@ -76,13 +73,18 @@ const FundWallet = () => {
       </div>
 
       <div className="flex flex-col items-start">
-        <p className="text-xs font-light">Account Name</p>
+        <p className="text-sm font-light">Account Name</p>
         <p className="text-sm">{paymentData.accountname}</p>
       </div>
 
       <div className="flex flex-col items-start">
-        <p className="text-xs font-light">Bank</p>
+        <p className="text-sm font-light">Bank</p>
         <p className="text-sm">{paymentData.bankname}</p>
+      </div>
+
+      <div className="flex flex-col items-start">
+        <p className="text-sm font-light">Amount to send</p>
+        <p className="text-sm">{paymentData.amount}</p>
       </div>
 
       <p className="text-sm font-light">

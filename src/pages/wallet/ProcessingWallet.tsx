@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import Countdown from 'react-countdown';
 import useWalletStore from '../../store/wallet';
 import useAuthStore from '../../store/auth';
-import { confirmPaymentFn } from '../../api/plan';
 import { useMutation } from '@tanstack/react-query';
 import CustomButton from '../../components/CustomButton';
+import { confirmPaymentFn } from '../../api/wallet';
 
 const ProcessingWallet = (props: Props) => {
   const paymentData = useWalletStore((state) => state.paymentData);

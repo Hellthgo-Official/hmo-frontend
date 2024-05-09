@@ -2,14 +2,14 @@ import { useMutation } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import Select from 'react-dropdown-select';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { getBanksFn, resolveBankFn } from '../../api/wallet';
+import { getBanksFn, offrampFn, resolveBankFn } from '../../api/wallet';
 import CustomButton from '../../components/CustomButton';
+import useAuthStore from '../../store/auth';
 import useWalletStore from '../../store/wallet';
 
 type Props = {};
 
 type Inputs = {
-  toAddress: string;
   amount: string;
   description: string;
   accountnumber: string;
@@ -33,17 +33,11 @@ const WithdrawFunds = (props: Props) => {
 
   const accountNumber = watch('accountnumber');
   const balance = useWalletStore((state) => state.balance);
+  const user = useAuthStore((state) => state.user);
   const [bankList, setBankList] = useState<any>([]);
 
   const [error, setError] = useState('');
-
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    setError('');
-    if (Number(data.amount) > Number(balance)) {
-      setError('Insufficient Balance');
-    } else {
-    }
-  };
+  const [accountName, setAccountName] = useState('');
 
   const [values, setValues] = useState<BankType[]>([]);
 
@@ -61,13 +55,16 @@ const WithdrawFunds = (props: Props) => {
       setBankList(sortedBanks);
     },
     onError: (error) => {
+      setError(error.message);
       console.log(error);
     },
   });
 
   const resolveBankMutation = useMutation({
     mutationFn: resolveBankFn,
-    onSuccess: (response) => {},
+    onSuccess: (response) => {
+      setAccountName(response.accountName);
+    },
     onError: (error) => {
       console.log(error);
     },
@@ -87,6 +84,35 @@ const WithdrawFunds = (props: Props) => {
     }
   }, [values, accountNumber]);
 
+  const offrampMutation = useMutation({
+    mutationFn: offrampFn,
+    onSuccess: (response) => {
+      console.log(response);
+    },
+    onError: (error) => {
+      setError(error.message);
+      console.log(error);
+    },
+  });
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    setError('');
+    if (Number(data.amount) > Number(balance)) {
+      setError('Insufficient Balance');
+    } else if (!resolveBankMutation.data) {
+    } else {
+      const formData = {
+        userId: user._id,
+        amount: data.amount,
+        bankName: values[0].bankName,
+        bankCode: values[0].bankIdentifyCode,
+        accountName: accountName,
+        accountNumber: accountNumber,
+      };
+      offrampMutation.mutate(formData);
+    }
+  };
+
   return (
     <div className="p-5">
       <p className="font-bold text-center my-2">Withdraw Money to Local Bank</p>
@@ -95,11 +121,12 @@ const WithdrawFunds = (props: Props) => {
       </p>
 
       <form className="pt-10 space-y-5">
+        <p className="text-xs lg:text-lg font-light">Bank Name</p>
         <Select
           options={bankList}
           onChange={(values) => setValues(values)}
           values={values}
-          className="w-full text-sm bg-blandGreen mt-2 outline-green-700"
+          className="w-full text-sm bg-blandGreen outline-green-700"
           valueField="bankCode"
           labelField="bankName"
           searchBy="bankName"
@@ -125,9 +152,7 @@ const WithdrawFunds = (props: Props) => {
             </p>
           )}
           {resolveBankMutation.isSuccess && (
-            <p className="lg:text-lg text-green-600 mt-2">
-              {resolveBankMutation.data.accountName}
-            </p>
+            <p className="lg:text-lg text-green-600 mt-2">{accountName}</p>
           )}
           {resolveBankMutation.isError && (
             <p className="lg:text-lg text-red-600 mt-2">
@@ -141,7 +166,9 @@ const WithdrawFunds = (props: Props) => {
           </span>
         )}
         <div className="w-full flex flex-col">
-          <p className="text-xs lg:text-lg font-light">Amount to send (NGN)</p>
+          <p className="text-xs lg:text-lg font-light">
+            Amount to withdraw (NGN)
+          </p>
           <input
             className="w-full rounded-lg text-sm border border-primary bg-blandGreen p-3 mt-2 outline-green-700"
             placeholder="0.00"
@@ -157,7 +184,7 @@ const WithdrawFunds = (props: Props) => {
           <p className="text-xs lg:text-lg font-light">Description</p>
           <input
             className="w-full rounded-lg text-sm border border-primary bg-blandGreen p-3 mt-2 outline-green-700"
-            placeholder="Narration(e.g deposit for health)"
+            placeholder="Narration(e.g urgent 2k)"
             {...register('description', {
               required: true,
             })}
@@ -174,6 +201,7 @@ const WithdrawFunds = (props: Props) => {
           linkTitle="Send"
           buttonType="full"
           onClick={handleSubmit(onSubmit)}
+          loading={offrampMutation.isPending}
         />
         {error && <span className="text-sm text-red-500 my-2">{error}</span>}
       </form>

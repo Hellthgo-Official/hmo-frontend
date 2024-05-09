@@ -54,7 +54,7 @@ const Wallet = () => {
     if (wallet) {
       getWalletBalance();
     }
-  }, []);
+  }, [wallet]);
 
   const [bttnText, setBttnText] = useState<'COPY' | 'COPIED'>('COPY');
 
@@ -87,16 +87,14 @@ const Wallet = () => {
         <div className="p-5">
           <div className="shadow-lg rounded-lg px-3 py-4">
             <div className="flex items-center justify-between">
-              <p className="font-semibold">Hello {wallet.name}.</p>
-              <div className="flex flex-col w-1/2">
+              <p className="font-semibold">Hello {user.firstName}.</p>
+              <div className="flex flex-col w-1/2 items-end">
                 <div className="flex space-x-2">
-                  <p className="text-textGrey text-xs font-thin">
-                    Wallet Address:
-                  </p>
+                  <p className="text-textGrey text-sm">Wallet Address:</p>
                   {bttnText === 'COPY' && (
                     <button
                       onClick={() => {
-                        copyCode(wallet.walletAddress);
+                        copyCode(wallet.name);
                       }}
                     >
                       <svg
@@ -125,7 +123,7 @@ const Wallet = () => {
                   )}
                 </div>
                 <p className="text-healthgoGreen text-sm font-medium text-ellipsis overflow-hidden">
-                  {wallet.walletAddress}
+                  {wallet.name}
                 </p>
               </div>
             </div>

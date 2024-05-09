@@ -3,10 +3,9 @@ import InputBox from '../../components/InputBox';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import CustomButton from '../../components/CustomButton';
 import { useMutation } from '@tanstack/react-query';
-import { transferFundsFn } from '../../api/wallet/index';
+import { onrampFn, transferFundsFn } from '../../api/wallet/index';
 import useWalletStore from '../../store/wallet';
 import { useNavigate } from 'react-router-dom';
-import { onrampFn } from '../../api/plan';
 import useAuthStore from '../../store/auth';
 
 type Inputs = {
@@ -34,10 +33,8 @@ const OnrampWallet = (props: Props) => {
 
   const onrampMutation = useMutation({
     mutationFn: onrampFn,
-    onSuccess: (response) => {
-      console.log(response);
-
-      storePaymentData(response.response);
+    onSuccess: (data) => {
+      storePaymentData(data.response);
       navigate('/fund-wallet');
     },
     onError: (error) => {
