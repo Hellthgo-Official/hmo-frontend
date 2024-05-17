@@ -47,9 +47,15 @@ const App = () => {
                 path="/available-packages"
                 element={<AvailablePackages />}
               />
-              <Route path="/payment-plan" element={<PaymentPlan />} />
-              <Route path="/payment-plan/daily" element={<PaymentPlanSpan />} />
-              <Route path="/payment-checkout" element={<PaymentCheckout />} />
+              <Route path="/payment-plan/:planType" element={<PaymentPlan />} />
+              <Route
+                path="/payment-plan/:planType/:planSpan"
+                element={<PaymentPlanSpan />}
+              />
+              <Route
+                path="/payment-checkout/:planType/:planSpan"
+                element={<PaymentCheckout />}
+              />
               <Route path="/wallet" element={<Wallet />} />
               <Route path="/onramp-wallet" element={<OnrampWallet />} />
               <Route path="/fund-wallet" element={<FundWallet />} />

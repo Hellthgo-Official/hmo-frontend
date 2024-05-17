@@ -1,8 +1,27 @@
+import { useMutation } from '@tanstack/react-query';
+import { fetchPlans } from '../../api/plan';
 import CustomButton from '../../components/CustomButton';
 import useAuthStore from '../../store/auth';
+import { useEffect } from 'react';
 
 const PlanSelection = () => {
   const user = useAuthStore((state) => state.user);
+
+  const currentPlan = user.currentPlan;
+
+  const fetchPlanMutation = useMutation({
+    mutationFn: fetchPlans,
+    onSuccess: (data) => {
+      console.log(data.response);
+    },
+    onError: (error) => {
+      console.log(error.message);
+    },
+  });
+
+  useEffect(() => {
+    currentPlan.paymentID && fetchPlanMutation.mutate(currentPlan.paymentID);
+  }, []);
 
   return (
     <div className="px-3 py-5">
@@ -57,11 +76,15 @@ const PlanSelection = () => {
         <div className="grid grid-cols-2 gap-3">
           <div className="border rounded-lg p-3 border-primary space-y-3">
             <p className="text-sm lg:text-xl font-light">Started since:</p>
-            <p className="text-healthgoBlack">N/A</p>
+            <p className="text-healthgoBlack">
+              {/* {currentPlan.enroleeId ? user.enroleeId : 'N/A'} */}
+            </p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
             <p className="text-sm lg:text-xl font-light">Enrollee ID:</p>
-            <p className="text-healthgoBlack">N/A</p>
+            <p className="text-healthgoBlack">
+              {user.enroleeId ? user.enroleeId : 'N/A'}
+            </p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
             <p className="text-sm lg:text-xl font-light">Deposit Amount:</p>
@@ -73,17 +96,25 @@ const PlanSelection = () => {
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
             <p className="text-sm lg:text-xl font-light">Amount paid:</p>
-            <p className="text-healthgoBlack">N/A</p>
+            <p className="text-healthgoBlack">
+              {currentPlan.lastPaymentAmount
+                ? currentPlan.lastPaymentAmount
+                : 'N/A'}
+            </p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
             <p className="text-sm lg:text-xl font-light">
               Balance left to pay:
             </p>
-            <p className="text-healthgoBlack">N/A</p>
+            <p className="text-healthgoBlack">
+              {currentPlan.price && currentPlan.totalPaid
+                ? Number(currentPlan.price) - Number(currentPlan.totalPaid)
+                : 'N/A'}
+            </p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
             <p className="text-sm lg:text-xl font-light">Mode of payment:</p>
-            <p className="text-healthgoBlack">N/A</p>
+            <p className="text-healthgoBlack">Wallet Balance</p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
             <p className="text-sm lg:text-xl font-light">

@@ -1,29 +1,48 @@
 import React from 'react';
 import CustomButton from '../../components/CustomButton';
+import { useParams } from 'react-router-dom';
+import { planInstallments } from '../../utils/data/Plans';
+import usePlanStore from '../../store/plan';
 
 type Props = {};
 
 const PaymentPlan = (props: Props) => {
+  const { planType } = useParams();
+
+  const plans = usePlanStore((state) => state.plans);
+
+  const specificPlan = plans.find((plan) => plan.id === planType);
+
+  if (!specificPlan) {
+    return <p>No plan found</p>;
+  }
   return (
     <div className="p-5">
       <p className="text-center font-semibold">
         How would you Pay the Balance gradually?
       </p>
-
+      <p className="font-semibold capitalize my-2">{specificPlan.id}:</p>
       <div className="grid grid-cols-1 py-5 gap-5">
         {/* Daily */}
         <div className="border border-primary px-3 pt-5 pb-2 rounded-lg">
           <div className="flex justify-between mb-2">
             <p className="text-sm font-semibold">Daily Instalments</p>
-            <p className="text-sm font-light">₦35,000 per year</p>
+            <p className="text-sm font-light">
+              ₦{specificPlan.price.toLocaleString()} per year
+            </p>
           </div>
           <div className="flex justify-between mb-2">
             <p className="text-xs font-semibold">Amount</p>
             <p className="text-xs font-semibold">Finish paying after:</p>
           </div>
           <div className="flex justify-between mb-2">
-            <p className="text-xs font-light">₦300 per day</p>
-            <p className="text-xs font-light">100 days; ~3 months</p>
+            <p className="text-xs font-light">
+              ₦{specificPlan.payment.daily.amount.toLocaleString()} per day
+            </p>
+            <p className="text-xs font-light">
+              {specificPlan.payment.daily.duration_days} days ~{' '}
+              {specificPlan.id.includes('MAXI') ? '6' : '3'} months
+            </p>
           </div>
           <div className="flex justify-between">
             <div className="flex items-center gap-x-3">
@@ -39,9 +58,15 @@ const PaymentPlan = (props: Props) => {
                   fill="#07A53D"
                 />
               </svg>
-              <p className="text-sm font-medium">Deposit: ₦5,000</p>
+              <p className="text-sm font-medium">
+                Deposit: ₦
+                {specificPlan.payment.initial_deposit.toLocaleString()}
+              </p>
             </div>
-            <CustomButton linkRoute="/payment-plan/daily" linkTitle="Next" />
+            <CustomButton
+              linkRoute={`/payment-plan/${specificPlan.id}/daily`}
+              linkTitle="Next"
+            />
           </div>
         </div>
 
@@ -49,15 +74,22 @@ const PaymentPlan = (props: Props) => {
         <div className="border border-primary px-3 pt-5 pb-2 rounded-lg">
           <div className="flex justify-between mb-2">
             <p className="text-sm font-semibold">Weekly Instalments</p>
-            <p className="text-sm font-light">₦35,000 per year</p>
+            <p className="text-sm font-light">
+              ₦{specificPlan.price.toLocaleString()} per year
+            </p>
           </div>
           <div className="flex justify-between mb-2">
             <p className="text-xs font-semibold">Amount</p>
             <p className="text-xs font-semibold">Finish paying after:</p>
           </div>
           <div className="flex justify-between mb-2">
-            <p className="text-xs font-light">₦2500 per week</p>
-            <p className="text-xs font-light">12 weeks; ~3 months</p>
+            <p className="text-xs font-light">
+              ₦{specificPlan.payment.weekly.amount.toLocaleString()} per week
+            </p>
+            <p className="text-xs font-light">
+              {specificPlan.payment.weekly.duration_weeks} weeks ~{' '}
+              {specificPlan.id.includes('MAXI') ? '6' : '3'} months
+            </p>
           </div>
           <div className="flex justify-between">
             <div className="flex items-center gap-x-3">
@@ -73,25 +105,37 @@ const PaymentPlan = (props: Props) => {
                   fill="#07A53D"
                 />
               </svg>
-              <p className="text-sm font-medium">Deposit: ₦5,000</p>
+              <p className="text-sm font-medium">
+                Deposit: ₦
+                {specificPlan.payment.initial_deposit.toLocaleString()}
+              </p>
             </div>
-            <CustomButton linkRoute="/payment-plan/daily" linkTitle="Next" />
+            <CustomButton
+              linkRoute={`/payment-plan/${specificPlan.id}/weekly`}
+              linkTitle="Next"
+            />
           </div>
         </div>
 
         {/* Monthly */}
         <div className="border border-primary px-3 pt-5 pb-2 rounded-lg">
           <div className="flex justify-between mb-2">
-            <p className="text-sm font-semibold">Weekly Instalments</p>
-            <p className="text-sm font-light">₦35,000 per year</p>
+            <p className="text-sm font-semibold">Monthly Instalments</p>
+            <p className="text-sm font-light">
+              ₦{specificPlan.price.toLocaleString()} per year
+            </p>
           </div>
           <div className="flex justify-between mb-2">
             <p className="text-xs font-semibold">Amount</p>
             <p className="text-xs font-semibold">Finish paying after:</p>
           </div>
           <div className="flex justify-between mb-2">
-            <p className="text-xs font-light">₦10,000 per month</p>
-            <p className="text-xs font-light">3 months</p>
+            <p className="text-xs font-light">
+              ₦{specificPlan.payment.monthly.amount.toLocaleString()} per month
+            </p>
+            <p className="text-xs font-light">
+              {specificPlan.payment.monthly.duration_months} months
+            </p>
           </div>
           <div className="flex justify-between">
             <div className="flex items-center gap-x-3">
@@ -107,9 +151,15 @@ const PaymentPlan = (props: Props) => {
                   fill="#07A53D"
                 />
               </svg>
-              <p className="text-sm font-medium">Deposit: ₦5,000</p>
+              <p className="text-sm font-medium">
+                Deposit: ₦
+                {specificPlan.payment.initial_deposit.toLocaleString()}
+              </p>
             </div>
-            <CustomButton linkRoute="/payment-plan/daily" linkTitle="Next" />
+            <CustomButton
+              linkRoute={`/payment-plan/${specificPlan.id}/monthly`}
+              linkTitle="Next"
+            />
           </div>
         </div>
       </div>

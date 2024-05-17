@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { walletApi } from '..';
+import { authApi, walletApi } from '..';
 
 export async function createWalletFn(body) {
   try {
-    const response = await walletApi.post('/toronet/createwallet', body);
+    const response = await walletApi.post('/createwallet', body);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -12,7 +12,7 @@ export async function createWalletFn(body) {
 
 export async function getWalletFn(body) {
   try {
-    const response = await walletApi.post('/toronet/getwallet', body);
+    const response = await walletApi.post('/getwallet', body);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -21,7 +21,7 @@ export async function getWalletFn(body) {
 
 export async function getWalletBalanceFn(body) {
   try {
-    const response = await walletApi.post('/toronet/ngn-balance', body);
+    const response = await walletApi.post('/ngn-balance', body);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -30,7 +30,7 @@ export async function getWalletBalanceFn(body) {
 
 export async function transferFundsFn(body) {
   try {
-    const response = await walletApi.post('/toronet/sendngn', body);
+    const response = await walletApi.post('/sendngn', body);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -39,7 +39,7 @@ export async function transferFundsFn(body) {
 
 export async function verifyBvnFn(body) {
   try {
-    const response = await walletApi.post(
+    const response = await authApi.post(
       `/auth/kyc-verification/bvn/${body.userId}`,
       body,
     );
@@ -51,7 +51,7 @@ export async function verifyBvnFn(body) {
 
 export async function verifyNinFn(body) {
   try {
-    const response = await walletApi.post(
+    const response = await authApi.post(
       `/auth/kyc-verification/nin/${body.userId}`,
       body,
     );
@@ -78,7 +78,7 @@ export async function getBanksFn() {
 
 export async function resolveBankFn(body) {
   try {
-    const response = await walletApi.post(`/toronet/resolve-bank`, body);
+    const response = await walletApi.post(`/resolve-bank`, body);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -87,7 +87,7 @@ export async function resolveBankFn(body) {
 
 export async function onrampFn(body) {
   try {
-    const response = await walletApi.post('/toronet/on-ramp', body);
+    const response = await walletApi.post('/on-ramp', body);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -96,7 +96,7 @@ export async function onrampFn(body) {
 
 export async function offrampFn(body) {
   try {
-    const response = await walletApi.post('/toronet/off-ramp', body);
+    const response = await walletApi.post('/off-ramp', body);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -105,10 +105,7 @@ export async function offrampFn(body) {
 
 export async function confirmPaymentFn(body) {
   try {
-    const response = await walletApi.post(
-      '/toronet/first-confirm-payment',
-      body,
-    );
+    const response = await walletApi.post('/first-confirm-payment', body);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);

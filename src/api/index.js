@@ -8,6 +8,10 @@ export const authApi = axios.create({
 });
 
 export const walletApi = axios.create({
-  baseURL: BASE_URL,
+  baseURL: `${BASE_URL}/toronet`,
+});
+
+export const planApi = axios.create({
+  baseURL: `${BASE_URL}/toronet`,
 });
 

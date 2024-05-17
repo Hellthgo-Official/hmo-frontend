@@ -6,6 +6,7 @@ import { getBanksFn, offrampFn, resolveBankFn } from '../../api/wallet';
 import CustomButton from '../../components/CustomButton';
 import useAuthStore from '../../store/auth';
 import useWalletStore from '../../store/wallet';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {};
 
@@ -86,9 +87,7 @@ const WithdrawFunds = (props: Props) => {
 
   const offrampMutation = useMutation({
     mutationFn: offrampFn,
-    onSuccess: (response) => {
-      console.log(response);
-    },
+    onSuccess: (response) => {},
     onError: (error) => {
       setError(error.message);
       console.log(error);
@@ -112,6 +111,16 @@ const WithdrawFunds = (props: Props) => {
       offrampMutation.mutate(formData);
     }
   };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (offrampMutation.isSuccess) {
+      setTimeout(() => {
+        navigate('/wallet');
+      }, 1500);
+    }
+  }, [offrampMutation.status]);
 
   return (
     <div className="p-5">
@@ -204,6 +213,11 @@ const WithdrawFunds = (props: Props) => {
           loading={offrampMutation.isPending}
         />
         {error && <span className="text-sm text-red-500 my-2">{error}</span>}
+        {offrampMutation.isSuccess && (
+          <span className="text-sm text-green-500 my-2">
+            {offrampMutation.data.message}
+          </span>
+        )}
       </form>
     </div>
   );

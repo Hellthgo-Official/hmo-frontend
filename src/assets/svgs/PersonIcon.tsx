@@ -20,3 +20,4 @@ const PersonIcon = (props: Props) => {
 };
 
 export default PersonIcon;
+
