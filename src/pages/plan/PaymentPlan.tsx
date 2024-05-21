@@ -23,7 +23,7 @@ const PaymentPlan = (props: Props) => {
       </p>
       <p className="font-semibold capitalize my-2">{specificPlan.id}:</p>
       <div className="grid grid-cols-1 py-5 gap-5">
-        {/* Daily */}
+        {/* Daily
         <div className="border border-primary px-3 pt-5 pb-2 rounded-lg">
           <div className="flex justify-between mb-2">
             <p className="text-sm font-semibold">Daily Instalments</p>
@@ -68,7 +68,7 @@ const PaymentPlan = (props: Props) => {
               linkTitle="Next"
             />
           </div>
-        </div>
+        </div> */}
 
         {/* Weekly  */}
         <div className="border border-primary px-3 pt-5 pb-2 rounded-lg">
