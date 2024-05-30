@@ -53,7 +53,7 @@ const App = () => {
                 element={<PaymentPlanSpan />}
               />
               <Route
-                path="/payment-checkout/:planType/:planSpan"
+                path="/payment-checkout/:planType/:planSpan/:providerId"
                 element={<PaymentCheckout />}
               />
               <Route path="/wallet" element={<Wallet />} />

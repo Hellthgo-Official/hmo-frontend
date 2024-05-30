@@ -21,6 +21,8 @@ export interface PlanType {
     initial_deposit: number;
   };
   price: number;
+  planCode: string;
+  planId: number;
 }
 
 interface PlanStore {

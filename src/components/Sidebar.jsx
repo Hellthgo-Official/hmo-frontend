@@ -38,6 +38,9 @@ const Sidebar = () => {
     <div
       className={`bg-primaryBG z-50 lg:z-0 lg:bg-transparent ${showSidebar ? 'fixed' : 'hidden'} lg:fixed lg:flex flex-col space-y-5 px-5 py-10 w-4/5 lg:w-80 h-screen shadow-[0px_2px_18px_3px_#e2e8f0]`}
     >
+      <div>
+
+      </div>
       <button
         onClick={() => {
           handleNavigate('/');
@@ -96,7 +99,7 @@ const Sidebar = () => {
           Wallet
         </p>
       </button>
-      <div className="w-full rounded-lg group hover:bg-secondaryBG h-16 flex items-center px-5 space-x-3">
+      <div className="w-full rounded-lg group hover:bg-secondaryBG h-16 md:h-14 xl:h-16 flex items-center px-5 space-x-3">
         <svg
           width="24"
           height="24"

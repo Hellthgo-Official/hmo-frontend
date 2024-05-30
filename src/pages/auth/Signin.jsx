@@ -15,6 +15,9 @@ const Signin = () => {
     password: '',
   };
 
+  const [message, setMessage] = useState('');
+  const [type, setType] = useState('');
+
   const [formData, setFormData] = useState(initialFormData);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -39,12 +42,16 @@ const Signin = () => {
   const signinMutation = useMutation({
     mutationFn: signinUserFn,
     onSuccess: (data) => {
+      setType('success');
+      setMessage('Login successful');
       setFormData(initialFormData);
       storeLogin(data.user);
       navigate('/');
     },
     onError: (error) => {
-      console.log(error);
+      // console.log(error, 'error');
+      setType('error');
+      setMessage(error.message);
     },
   });
 
@@ -52,6 +59,8 @@ const Signin = () => {
     e.preventDefault();
     signinMutation.mutate(formData);
   };
+
+  // console.log(signinMutation, 'signinMutation')
 
   return (
     <div className="bg-sectionBg">
@@ -74,6 +83,17 @@ const Signin = () => {
 
           <div className="w-full md:w-[50%] shadow-authFormContainer p-[30px] rounded-[1.25rem] md:rounded-[0.75rem]">
             <form className="mt-[30px] flex flex-col gap-[20px]">
+              {message && (
+                <div
+                  className={`px-2 py-[10px] text-[14px] rounded-[8px] ${
+                    type === 'error'
+                      ? 'bg-red-200 text-red-600'
+                      : 'bg-green-200 text-green-600'
+                  }`}
+                >
+                  {message}
+                </div>
+              )}
               <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
@@ -118,7 +138,7 @@ const Signin = () => {
                 <button
                   type="submit"
                   onClick={handleSubmit}
-                  disabled={signinMutation.isLoading}
+                  disabled={signinMutation.isPending}
                   className="bg-secondary w-full font-barlow font-semibold text-[14px] leading-[21px] tracking-[2%} text-white px-[1rem] py-[0.5rem] rounded-[4px] flex justify-center items-center gap-[8px] h-[3rem]"
                 >
                   {signinMutation.isPending ? (

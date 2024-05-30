@@ -5,8 +5,8 @@ export async function signupUserFn(body) {
     const response = await authApi.post('/auth/signup', body);
     return response.data;
   } catch (error) {
-    console.error(error);
-    throw new Error(error.response.data.message);
+    // console.error(error);
+    throw error.response.data.message
   }
 }
 
@@ -15,8 +15,9 @@ export async function signinUserFn(body) {
     const response = await authApi.post('/auth/signin', body);
     return response.data;
   } catch (error) {
-    console.error(error);
-    throw new Error(error.response.data.message);
+    // console.log(error)
+    throw error.response.data.error
+    // throw new Error(`${error.response.data.error}`);
   }
 }
 
@@ -26,7 +27,8 @@ export async function resetPasswordFn(body) {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error(error.response.data.message);
+    throw error.response
+    // throw new Error(error.response.data.message);
   }
 }
 
@@ -36,7 +38,8 @@ export async function recoverPasswordByMailFn(email) {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error(error.response.data.message);
+    // throw new Error(error.response.data.message);
+    throw error.response.data.error;
   }
 }
 
@@ -48,7 +51,8 @@ export async function verifyEmailFn(body) {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error(error.response.data.message);
+    // throw new Error(error.response.data.message);
+    throw error.response;
   }
 }
 
@@ -58,7 +62,8 @@ export async function resendVerificationEmailFn(email) {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error(error.response.data.message);
+    // throw new Error(error.response.data.message);
+    throw error.response;
   }
 }
 
@@ -68,7 +73,8 @@ export async function confirmPasswordTokenFn(body) {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error(error.response.data.message);
+    // throw new Error(error.response.data.message);
+    throw error.response;
   }
 }
 
@@ -78,7 +84,8 @@ export async function getRefferalsFn(code) {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error(error.response.data.message);
+    // throw new Error(error.response.data.message);
+    throw error.response;
   }
 }
 

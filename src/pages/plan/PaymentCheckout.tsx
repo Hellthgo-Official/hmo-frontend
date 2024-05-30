@@ -9,7 +9,7 @@ import usePlanStore from '../../store/plan';
 type Props = {};
 
 const PaymentCheckout = (props: Props) => {
-  const { planSpan, planType } = useParams();
+  const { planSpan, planType, providerId } = useParams();
 
   const user = useAuthStore((state) => state.user);
   const plans = usePlanStore((state) => state.plans);
@@ -26,6 +26,7 @@ const PaymentCheckout = (props: Props) => {
     paymentFrequency: planSpan,
     planId: specificPlan.id,
     userId: user._id,
+    providerId: `${providerId}`,
   };
 
   const navigate = useNavigate();
@@ -83,12 +84,6 @@ const PaymentCheckout = (props: Props) => {
             : makeFirstPaymentMutation.error.message}
         </p>
       )}
-      {/* <CustomButton
-        linkRoute="/wallet"
-        linkTitle="Pay with Wallet Balance"
-        buttonType="outlined"
-        extraClassNames="w-full items-center justify-center"
-      /> */}
 
       <p className="text-sm text-center mt-10 mb-5">
         Not yet, I am not ready to pay the deposit amount now.

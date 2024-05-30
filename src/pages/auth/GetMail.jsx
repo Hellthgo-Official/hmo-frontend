@@ -8,16 +8,23 @@ const GetMail = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [message, setMessage] = useState(null);
+  const [type, setType] = useState(null);
 
   const GetMailMutation = useMutation({
     mutationFn: recoverPasswordByMailFn,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
+      // console.log(data);
+      setType('success');
+      setMessage('OTP sent successfully.')
       navigate('/verify-otp', { state: { email }, replace: true });
       setEmail('');
     },
     onError: (error) => {
-      console.log(error);
+
+      // console.log(error);
+      setType('error');
+      setMessage(error)
     },
   });
 
@@ -54,6 +61,17 @@ const GetMail = () => {
               className="mt-[30px] flex flex-col gap-[20px]"
               onSubmit={handleSubmit}
             >
+              {message && (
+                <div
+                  className={`px-2 py-[10px] text-[14px] rounded-[8px] ${
+                    type === 'error'
+                      ? 'bg-red-200 text-red-600'
+                      : 'bg-green-200 text-green-600'
+                  }`}
+                >
+                  {message}
+                </div>
+              )}
               <div>
                 <div className="form-group">
                   <label htmlFor="email">Email</label>

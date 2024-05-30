@@ -76,6 +76,15 @@ export async function getBanksFn() {
   }
 }
 
+export async function getHospitalsFn(body) {
+  try {
+    const response = await walletApi.get(`/fetch-hospitals/${body.planName}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+}
+
 export async function resolveBankFn(body) {
   try {
     const response = await walletApi.post(`/resolve-bank`, body);
