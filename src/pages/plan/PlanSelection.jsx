@@ -3,6 +3,7 @@ import { fetchPlans } from '../../api/plan';
 import CustomButton from '../../components/CustomButton';
 import useAuthStore from '../../store/auth';
 import { useEffect } from 'react';
+import useFormatDate from '../../utils/hooks/useFormatDate';
 
 const PlanSelection = () => {
   const user = useAuthStore((state) => state.user);
@@ -22,6 +23,11 @@ const PlanSelection = () => {
   useEffect(() => {
     currentPlan.paymentID && fetchPlanMutation.mutate(currentPlan.paymentID);
   }, []);
+
+  const nextPayDay =
+    currentPlan && currentPlan.paymentFrequency === 'weekly'
+      ? 604800000
+      : 2629776000;
 
   return (
     <div className="px-3 py-5">
@@ -77,7 +83,9 @@ const PlanSelection = () => {
           <div className="border rounded-lg p-3 border-primary space-y-3">
             <p className="text-sm lg:text-xl font-light">Started since:</p>
             <p className="text-healthgoBlack">
-              {/* {currentPlan.enroleeId ? user.enroleeId : 'N/A'} */}
+              {currentPlan.initialPaymentDate
+                ? useFormatDate(currentPlan.initialPaymentDate)
+                : 'N/A'}
             </p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
@@ -97,9 +105,7 @@ const PlanSelection = () => {
           <div className="border rounded-lg p-3 border-primary space-y-3">
             <p className="text-sm lg:text-xl font-light">Amount paid:</p>
             <p className="text-healthgoBlack">
-              {currentPlan.lastPaymentAmount
-                ? currentPlan.lastPaymentAmount
-                : 'N/A'}
+              {currentPlan.totalPaid ? currentPlan.totalPaid : 'N/A'}
             </p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
@@ -120,7 +126,11 @@ const PlanSelection = () => {
             <p className="text-sm lg:text-xl font-light">
               Date for next payment:
             </p>
-            <p className="text-healthgoBlack">N/A</p>
+            <p className="text-healthgoBlack">
+              {currentPlan.lastPaymentDate
+                ? useFormatDate(currentPlan.lastPaymentDate + nextPayDay)
+                : 'N/A'}
+            </p>
           </div>
         </div>
 

@@ -48,6 +48,13 @@ const PaymentCheckout = (props: Props) => {
 
   return (
     <div className="p-5">
+      {makeFirstPaymentMutation.isError && (
+        <div className="bg-secondary mb-5 w-2/3 p-3 ml-auto rounded-lg">
+          <p className="font-semibold text-white">
+            Something went wrong? Contact Support
+          </p>
+        </div>
+      )}
       <div className="text-center pb-10">
         <p className="font-semibold mb-5">Make Payment</p>
         <p className="text-sm">Important Notice:</p>
