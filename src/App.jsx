@@ -22,6 +22,8 @@ import ProcessingWallet from './pages/wallet/ProcessingWallet';
 import TransferFunds from './pages/wallet/TransferFunds';
 import Wallet from './pages/wallet/Wallet';
 import WithdrawFunds from './pages/wallet/WithdrawFunds';
+import PackageBenefits from './pages/plan/PackageBenefits';
+import FindHospitals from './pages/plan/FindHospitals';
 
 const App = () => {
   return (
@@ -47,6 +49,8 @@ const App = () => {
                 path="/available-packages"
                 element={<AvailablePackages />}
               />
+              <Route path="/package-benefits" element={<PackageBenefits />} />
+              <Route path="/find-hospitals" element={<FindHospitals />} />
               <Route path="/payment-plan/:planType" element={<PaymentPlan />} />
               <Route
                 path="/payment-plan/:planType/:planSpan"

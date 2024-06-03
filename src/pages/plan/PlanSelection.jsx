@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { fetchPlans } from '../../api/plan';
 import CustomButton from '../../components/CustomButton';
 import useAuthStore from '../../store/auth';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useFormatDate from '../../utils/hooks/useFormatDate';
 
 const PlanSelection = () => {
@@ -10,10 +10,12 @@ const PlanSelection = () => {
 
   const currentPlan = user.currentPlan;
 
+  const [planData, setPlanData] = useState(null);
+
   const fetchPlanMutation = useMutation({
     mutationFn: fetchPlans,
     onSuccess: (data) => {
-      console.log(data.response);
+      setPlanData(data.response);
     },
     onError: (error) => {
       console.log(error.message);
@@ -96,11 +98,17 @@ const PlanSelection = () => {
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
             <p className="text-sm lg:text-xl font-light">Deposit Amount:</p>
-            <p className="text-healthgoBlack">N/A</p>
+            <p className="text-healthgoBlack">
+              {planData ? planData.payment.initial_deposit : 'N/A'}
+            </p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
             <p className="text-sm lg:text-xl font-light">Instalment amount:</p>
-            <p className="text-healthgoBlack">N/A</p>
+            <p className="text-healthgoBlack">
+              {planData && currentPlan
+                ? planData.payment[currentPlan.paymentFrequency].amount
+                : 'N/A'}
+            </p>
           </div>
           <div className="border rounded-lg p-3 border-primary space-y-3">
             <p className="text-sm lg:text-xl font-light">Amount paid:</p>

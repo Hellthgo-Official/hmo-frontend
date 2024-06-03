@@ -3,7 +3,7 @@ import { planApi } from '..';
 export async function fetchPlans(id: string) {
   const url = !id ? 'fetch-plans' : `/fetch-plan/${id}`;
   try {
-    const response = await planApi.get(url);
+    const response = !id ? await planApi.get(url) : await planApi.post(url);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);

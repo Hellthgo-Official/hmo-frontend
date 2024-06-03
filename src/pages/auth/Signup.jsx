@@ -316,7 +316,6 @@ const Signup = () => {
                 <div className="form-group">
                   <label htmlFor="streetAddress">Address</label>
                   <input
-                    type="tel"
                     id="streetAddress"
                     className="auth-input"
                     value={formData.streetAddress}
