@@ -51,7 +51,7 @@ const Signin = () => {
     onError: (error) => {
       // console.log(error, 'error');
       setType('error');
-      setMessage(error.message);
+      setMessage(error.message ?? error);
     },
   });
 

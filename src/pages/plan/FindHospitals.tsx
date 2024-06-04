@@ -172,7 +172,7 @@ const FindHospitals = (props: Props) => {
                 key={index}
                 className="w-full py-4 my-2 px-3 flex items-center justify-between bg-white rounded-lg"
                 onClick={() => {
-                  handleSelect(item);
+                  // handleSelect(item);
                 }}
               >
                 <div className="w-4/5 text-left">
