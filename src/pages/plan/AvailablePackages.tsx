@@ -54,7 +54,6 @@ const AvailablePackages = () => {
 
             return (
               <>
-                <div key={`${id}-scroll`} id={id}></div>
                 <div key={id} className="border border-primary p-3 rounded-lg">
                   <div className="flex justify-between">
                     <div className="flex items-center gap-x-3">

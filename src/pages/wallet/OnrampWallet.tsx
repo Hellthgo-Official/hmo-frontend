@@ -22,7 +22,7 @@ const OnrampWallet = (props: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({ defaultValues: { toAddress: wallet.walletAddress } });
+  } = useForm<Inputs>({ defaultValues: { toAddress: wallet.name } });
 
   const user = useAuthStore((state) => state.user);
   const storePaymentData = useWalletStore((state) => state.setPaymentData);

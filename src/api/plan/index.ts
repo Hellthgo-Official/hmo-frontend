@@ -10,6 +10,15 @@ export async function fetchPlans(id: string) {
   }
 }
 
+export async function fetchPlanBenefits() {
+  try {
+    const response = await planApi.get('/pricing');
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+}
+
 export async function makeFirstPayment(body: {
   paymentFrequency: string;
   planId: string;

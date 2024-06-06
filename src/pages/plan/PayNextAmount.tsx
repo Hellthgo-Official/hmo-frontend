@@ -8,71 +8,32 @@ import usePlanStore from '../../store/plan';
 
 type Props = {};
 
-const PaymentCheckout = (props: Props) => {
-  const { planSpan, planType, providerId } = useParams();
-
+const PayNextAmount = (props: Props) => {
   const user = useAuthStore((state) => state.user);
   const plans = usePlanStore((state) => state.plans);
 
-  const specificPlan = plans.find((plan) => plan.id === planType);
-
-  if (!specificPlan || !planSpan || !planType) {
-    return <p>No plan found</p>;
-  }
-
-  const initialDeposit = specificPlan.payment.initial_deposit;
-
-  const formData = {
-    paymentFrequency: planSpan,
-    planId: specificPlan.id,
-    userId: user._id,
-    providerId: `${providerId}`,
-  };
+  const specificPlan = plans.find((plan) => plan.id === '');
 
   const navigate = useNavigate();
 
-  const makeFirstPaymentMutation = useMutation({
-    mutationFn: makeFirstPayment,
-    onSuccess: (data) => {
-      console.log(data.response);
-      // navigate('/');
-    },
-    onError: (error) => {
-      console.log(error.message);
-    },
-  });
-
-  const onMakePayment = () => {
-    makeFirstPaymentMutation.mutate(formData);
-  };
-
-  const support = () => {
-    window.location.href = 'https://wa.me/message/ZTDQYDCGVITIH1';
-  };
-
   return (
     <div className="p-5">
-      {makeFirstPaymentMutation.isError && (
-        <div
-          onClick={() => {
-            support();
-          }}
-          className="bg-secondary mb-5 w-2/3 p-3 ml-auto rounded-lg"
-        >
+      {/* {makeFirstPaymentMutation.isError && (
+        <div className="bg-secondary mb-5 w-2/3 p-3 ml-auto rounded-lg">
           <p className="font-semibold text-white">
             Something went wrong? Contact Support
           </p>
         </div>
-      )}
+      )} */}
       <div className="text-center pb-10">
         <p className="font-semibold mb-5">Make Payment</p>
         <p className="text-sm">Important Notice:</p>
         <p className="text-sm">
-          You will first pay the deposit amount{' '}
+          You will pay the weekly due of{' '}
           <span className="font-semibold">
-            (₦{initialDeposit.toLocaleString()})
+            {/* (₦{initialDeposit.toLocaleString()}) */}
           </span>{' '}
-          plus service fees for now. Are you ready to pay the deposit now?
+          plus service fees for now. Are you ready to pay now?
         </p>
       </div>
       <p className="text-sm text-center my-5">
@@ -84,22 +45,22 @@ const PaymentCheckout = (props: Props) => {
         linkTitle="Pay with Wallet Balance"
         buttonType="full"
         extraClassNames="my-5"
-        loading={makeFirstPaymentMutation.isPending}
+        // loading={makeFirstPaymentMutation.isPending}
         onClick={() => {
-          onMakePayment();
+          //   onMakePayment();
         }}
       />
 
-      {makeFirstPaymentMutation.isSuccess && (
+      {/* {makeFirstPaymentMutation.isSuccess && (
         <p className="lg:text-lg text-green-600 mt-2">{''}</p>
-      )}
-      {makeFirstPaymentMutation.isError && (
+      )} */}
+      {/* {makeFirstPaymentMutation.isError && (
         <p className="lg:text-lg text-red-600 mt-2">
           {makeFirstPaymentMutation.error.message.includes('Insufficient')
             ? 'Insufficient wallet balance'
             : makeFirstPaymentMutation.error.message}
         </p>
-      )}
+      )} */}
 
       <p className="text-sm text-center mt-10 mb-5">
         Not yet, I am not ready to pay the deposit amount now.
@@ -112,5 +73,5 @@ const PaymentCheckout = (props: Props) => {
   );
 };
 
-export default PaymentCheckout;
+export default PayNextAmount;
 

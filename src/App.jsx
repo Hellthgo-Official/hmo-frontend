@@ -13,6 +13,7 @@ import PaymentCheckout from './pages/plan/PaymentCheckout';
 import PaymentPlan from './pages/plan/PaymentPlan';
 import PaymentPlanSpan from './pages/plan/PaymentPlanSpan';
 import PlanSelection from './pages/plan/PlanSelection';
+import PayNextAmount from './pages/plan/PayNextAmount';
 import VerifyAccount from './pages/plan/VerifyAccount';
 import VerifyKinAccount from './pages/plan/VerifyKinAccount';
 import Profile from './pages/profile/Profile';
@@ -60,6 +61,7 @@ const App = () => {
                 path="/payment-checkout/:planType/:planSpan/:providerId"
                 element={<PaymentCheckout />}
               />
+              <Route path="/pay-next-amount" element={<PayNextAmount />} />
               <Route path="/wallet" element={<Wallet />} />
               <Route path="/onramp-wallet" element={<OnrampWallet />} />
               <Route path="/fund-wallet" element={<FundWallet />} />
