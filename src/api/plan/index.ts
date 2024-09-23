@@ -23,6 +23,8 @@ export async function makeFirstPayment(body: {
   paymentFrequency: string;
   planId: string;
   userId: string;
+  couponCode?: string;
+  providerId: string;
 }) {
   try {
     const response = await planApi.post('/make-first-payment', body);
@@ -30,6 +32,22 @@ export async function makeFirstPayment(body: {
   } catch (error) {
     console.log(error);
 
+    throw new Error(error.response.data.error);
+  }
+}
+
+export async function makeFullPayment(body: {
+  paymentFrequency: string;
+  planId: string;
+  userId: string;
+  providerId: string;
+  couponCode?: string;
+}) {
+  try {
+    const response = await planApi.post('/make-full-payment', body);
+    return response.data;
+  } catch (error) {
+    console.log(error);
     throw new Error(error.response.data.error);
   }
 }
